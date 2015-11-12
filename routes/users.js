@@ -1,9 +1,26 @@
 var express = require('express');
 var router = express.Router();
+var mongodb = require('mongodb');
+var MongoClieant = mongodb.MongoClient;
+var users;
+var url = 'mongodb://localhost:27017/TestApi';
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  //console.log(req.query);
+  MongoClieant.connect(url, function(err, db){
+    if(err){
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+      // Get the documents collection
+      var collection = db.collection('users');
+      // Get all documents
+      collection.find().toArray(function(err, docs) {
+        users = docs;
+      });
+    }
+  });
+  res.send(users);
 });
 
 module.exports = router;
