@@ -1,9 +1,9 @@
 //var mongodb = require('mongodb');
-//var MongoClieant = mongodb.MongoClient;
+//var MongoClient = mongodb.MongoClient;
 //var users;
 //var url = 'mongodb://localhost:27017/TestApi';
 //
-//MongoClieant.connect(url, function(err, db){
+//MongoClient.connect(url, function(err, db){
 //    if(err){
 //        console.log('Unable to connect to the mongoDB server. Error:', err);
 //    } else {
