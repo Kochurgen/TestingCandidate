@@ -12,11 +12,12 @@ router.get('/', function(req, res, next) {
     var login= req.query.login;
     var password = req.query.password;
     var registrationIP = req._remoteAddress;
-    var registrationBrowser = req.query.username;
+    var registrationBrowser = req. headers.user-agent;
     var accessToken = req.query.username;
     var mongoose = require('mongoose');
     var db = mongoose.connection;
-
+    var registred = req._startTime;
+    console.log(0, res);
     db.on('error', console.error);
     mongoose.connect('mongodb://localhost:27017/tests3');
     db.once('open', function() {
@@ -69,17 +70,17 @@ router.get('/', function(req, res, next) {
             } else {
                 findeResult = [];
                 findeResult = users;
-                console.log(2, findeResult);
+                console.log(2, users);
                 if(findeResult.length == 0){
                     var users1 = new Users({
                         "firstName": firstName,
                         "lastName": lastName,
-                        "registered": "Sun Dec 01 1996 02:00:00 GMT+0200 (EET)",
+                        "registered": registred,
                         "email": email,
                         "login": login,
                         "password": password,
-                        "registrationIP": registered,
-                        "registrationBrowser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.64 Safari/537.36",
+                        "registrationIP": registrationIP,
+                        "registrationBrowser": registrationBrowser,
                         "accessToken": "sqbkktg3s00vzz7gg3s198rzb9g3s2me2u2ng3s3"
                     });
                     console.log(users1);
@@ -96,5 +97,3 @@ router.get('/', function(req, res, next) {
     });
 });
 module.exports = router;
-
-
