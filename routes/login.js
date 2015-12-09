@@ -1,6 +1,8 @@
 "use strict";
 
 var express = require('express');
+var lzString = require("lz-string");
+var uuid = require('node-uuid');
 var router = express.Router();
 
 /* GET users listing. */
@@ -12,12 +14,12 @@ router.get('/', function(req, res, next) {
     var login= req.query.login;
     var password = req.query.password;
     var registrationIP = req._remoteAddress;
-    var registrationBrowser = req. headers.user-agent;
+    var registrationBrowser = req.rawHeaders[11];
     var accessToken = req.query.username;
     var mongoose = require('mongoose');
     var db = mongoose.connection;
     var registred = req._startTime;
-    console.log(0, res);
+
     db.on('error', console.error);
     mongoose.connect('mongodb://localhost:27017/tests3');
     db.once('open', function() {
@@ -62,7 +64,15 @@ router.get('/', function(req, res, next) {
             ]
         });
         var Users = mongoose.model('Users', movieSchema);
-        console.log(1);
+        var token = {
+            "email": email,
+            registered:registered,
+            "security": {
+                "tokenLife" : 3600
+            }
+        };
+        var result  = lzString.compress(token);
+        var uuid2 = uuid.v1(result);
         var findeResult = [];
         Users.find({email: email}, function(err, users){
             if (err) {
@@ -70,26 +80,35 @@ router.get('/', function(req, res, next) {
             } else {
                 findeResult = [];
                 findeResult = users;
-                console.log(2, users);
                 if(findeResult.length == 0){
                     var users1 = new Users({
-                        "firstName": firstName,
-                        "lastName": lastName,
-                        "registered": registred,
-                        "email": email,
-                        "login": login,
-                        "password": password,
-                        "registrationIP": registrationIP,
-                        "registrationBrowser": registrationBrowser,
-                        "accessToken": "sqbkktg3s00vzz7gg3s198rzb9g3s2me2u2ng3s3"
+                        "title": firstName + " " + lastName,
+                        "type": "object",
+                        "properties": {
+                            "firstName": firstName,
+                            "lastName": lastName,
+                            "registered": registred,
+                            "email": email,
+                            "login": login,
+                            "password": password,
+                            "registrationIP": registrationIP,
+                            "registrationBrowser": registrationBrowser,
+                            "accessToken": uuid2
+                        },
+                        "required": [
+                            firstName,
+                            lastName,
+                            email,
+                            login,
+                            password
+                        ]
                     });
-                    console.log(users1);
                     users1.save(function (err, users) {
                         if (err) {
                             return console.error(err);
+                        }else {
+                            res.send(uuid2);
                         }
-                        res.send(users);
-                        console.log(users.accessToken);
                     });
                 }
             }

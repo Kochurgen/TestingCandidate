@@ -13,10 +13,11 @@ router.get('/', function(req, res, next) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
     } else {
       // Get the documents collection
-      var collection = db.collection('users');
+      var collection = db.collection('test1');
       // Get all documents
       collection.find().toArray(function(err, docs) {
         users = docs;
+        console.log(docs);
       });
     }
   });

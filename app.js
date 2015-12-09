@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var fs = require('fs');
 //var db = require('./routes/DB');
 var jwt    = require('jsonwebtoken');
 var routes = require('./routes/index');
@@ -12,6 +12,10 @@ var users = require('./routes/users');
 var login = require('./routes/login');
 var question = require('./routes/question');
 var app = express();
+
+//var string = "This is my compression test.";
+//var compressed = LZString.compress(string);
+//string = LZString.decompress(compressed);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
