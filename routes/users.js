@@ -3,7 +3,7 @@ var router = express.Router();
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var users;
-var url = 'mongodb://localhost:27017/test3';
+var url = 'mongodb://localhost:27017/tests4';
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
     } else {
       // Get the documents collection
-      var collection = db.collection('test1');
+      var collection = db.collection('users');
       // Get all documents
       collection.find().toArray(function(err, docs) {
         users = docs;

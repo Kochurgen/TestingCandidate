@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
     var registred = req._startTime;
 
     db.on('error', console.error);
-    mongoose.connect('mongodb://localhost:27017/tests3');
+    mongoose.connect('mongodb://localhost:27017/tests4');
     db.once('open', function() {
         var movieSchema = new mongoose.Schema({
             "title": "string",
