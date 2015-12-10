@@ -7,7 +7,7 @@ var url = 'mongodb://localhost:27017/tests4';
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  //console.log(req.query);
+  console.log(res);
   MongoClient.connect(url, function(err, db){
     if(err){
       console.log('Unable to connect to the mongoDB server. Error:', err);

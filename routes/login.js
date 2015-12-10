@@ -64,6 +64,7 @@ router.get('/', function(req, res, next) {
             ]
         });
         var Users = mongoose.model('Users', movieSchema);
+        var findeResult = [];
         var token = {
             "email": email,
             registered:registered,
@@ -72,14 +73,14 @@ router.get('/', function(req, res, next) {
             }
         };
         var result  = lzString.compress(token);
-        var uuid2 = uuid.v1(result);
-        var findeResult = [];
+        var accessToken = uuid.v1(result);
         Users.find({email: email}, function(err, users){
             if (err) {
                 return console.error(err);
             } else {
                 findeResult = [];
                 findeResult = users;
+                console.log(users);
                 if(findeResult.length == 0){
                     var users1 = new Users({
                         "title": firstName + " " + lastName,
@@ -93,7 +94,7 @@ router.get('/', function(req, res, next) {
                             "password": password,
                             "registrationIP": registrationIP,
                             "registrationBrowser": registrationBrowser,
-                            "accessToken": uuid2
+                            "accessToken": accessToken
                         },
                         "required": [
                             firstName,
@@ -107,7 +108,8 @@ router.get('/', function(req, res, next) {
                         if (err) {
                             return console.error(err);
                         }else {
-                            res.send(uuid2);
+                            var id = users._id;
+                            res.send({accessToken, id});
                         }
                     });
                 }

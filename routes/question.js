@@ -10,12 +10,14 @@ router.get('/', function(req, res, next) {
     var db = mongoose.connection;
 
     db.on('error', console.error);
-    mongoose.connect('mongodb://localhost:27017/tests3');
+    mongoose.connect('mongodb://localhost:27017/tests4');
     db.once('open', function() {
         var movieSchema = new mongoose.Schema({
-            "title": "question",
+            "title": "string",
             "type": "object",
             "properties": {
+                "total": "string",
+                "current number": "string",
                 "codeName": {
                     "type": "string"
                 },
@@ -32,7 +34,7 @@ router.get('/', function(req, res, next) {
                     "type": "array"
                 },
                 "score": {
-                    "type": "integer"
+                    "type": "string"
                 }
             },
             "required": [
@@ -43,36 +45,35 @@ router.get('/', function(req, res, next) {
                 "score"
             ]
         });
-        var Users = mongoose.model('Users', movieSchema);
-        console.log(1);
-        var findeResult = [];
-        Users.find({"codeName": codeName}, function(err, users){
-            if (err) {
-                return console.error(err);
-            } else {
-                findeResult = [];
-                findeResult = users;
-                console.log(2, findeResult);
-                if(findeResult.length == 0){
-                    var users1 = new Users({
-                        "codeName": "HMAC234MD",
-                        "question": "Qustion text",
-                        "answers": [
-                            "1). answer correct",
-                            "2). answer wrong",
-                            "3). answer wrong",
-                            "4). answer correct"
-                        ],
-                        "answerMultiple": true,
-                        "answerCorrect": [1, 4],
-                        "score": 5
-                    });
-                        res.send(users1);
-                        console.log(users);
-                    };
-            }
-
+        var Question = mongoose.model('Question', movieSchema);
+        var users1 = new Question({
+            "title": "string",
+            "type": "object",
+            "properties": {
+                "total": "32",
+                "current number": "1",
+                "codeName": "HMAC234MD",
+                "question": "Qustion text",
+                "answers": [
+                    "1). answer correct",
+                    "2). answer wrong",
+                    "3). answer wrong",
+                    "4). answer correct"
+                ],
+                "answerMultiple": true,
+                "answerCorrect": ["1", "4"],
+                "score": "5"
+            },
+            "required": [
+                "codeName",
+                "answers",
+                "answerMultiple",
+                "answerCorrect",
+                "score"
+            ]
         });
+        console.log(users1);
+        res.send(users1);
     });
 });
 module.exports = router;

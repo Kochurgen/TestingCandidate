@@ -7,10 +7,11 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 //var db = require('./routes/DB');
 var jwt    = require('jsonwebtoken');
-var routes = require('./routes/index');
+var routes = require('./routes/createQuestion');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var question = require('./routes/question');
+var create_question = require('./routes/createQuestion');
 var app = express();
 
 //var string = "This is my compression test.";
@@ -33,6 +34,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/question', question);
+app.use('/create-question', create_question)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
