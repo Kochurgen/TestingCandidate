@@ -12,7 +12,15 @@ var users = require('./routes/users');
 var login = require('./routes/login');
 var question = require('./routes/question');
 var create_question = require('./routes/createQuestion');
+var signup =require('./routes/signup');
+var signin = require('./routes/signin');
 var app = express();
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/tes');gi
+var db = mongoose.connection;
+module.exports = mongoose;
+console.log(mongoose);
 
 //var string = "This is my compression test.";
 //var compressed = LZString.compress(string);
@@ -34,7 +42,9 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
 app.use('/question', question);
-app.use('/create-question', create_question)
+app.use('/create-question', create_question);
+app.use('/account/signup', signup);
+app.use('/account/signin', signin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
