@@ -16,6 +16,7 @@ var question = require('./routes/question');
 var create_question = require('./routes/createQuestion');
 var SignupModel = require('./routes/Connector').SignupModel;
 var SigninModel= require('./routes/Connector').SigninModel;
+var QuestionModel = require('./routes/question').QuestionModel;
 var app = express();
 
 //var string = "This is my compression test.";
@@ -37,8 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
-app.use('/question', question);
-app.use('/create-question', create_question);
+//app.use('/question', question);
+//app.use('/create-question', create_question);
 //app.use('/account/signup', signup);
 //app.use('/account/signin', signin);
 app.get('/account/signup', function(req, res){
@@ -216,6 +217,140 @@ app.post('/account/signin', function(req, res){
         }
     });
 });
+
+app.get('/account/question', function(req, res){
+    "use strict";
+    var testId = req.headers.testId;
+    var curentNumber = req.headers.curentNumber;
+    console.log(testId);
+    if(testId != undefined) {
+        return res.json(result[0]);
+    } else {
+        return res.send({
+            "identity": "account",
+            "method": "POST",
+            "version_sender": "1.0.0",
+            "version_actual": "1.0.0",
+            "data": {
+                "accessToken": accessToken
+            },
+            "date": registered,
+            "code": 200,
+            "message": "OK",
+            "status": "error",
+            "input": {}
+            });
+    }
+
+});
+
+app.post('/account/question', function(req, res){
+    "use strict";
+    var testId = req.headers.testId;
+    var curentNumber = req.headers.curentNumber;
+    questionModel.finde({testId:testId, curentNumber:curentNumber}, function(err, result){
+        if(!err){
+            return res.json(result[0]);
+        } else {
+            return res.send(err)
+        }
+    });
+});
+
+app.get('/account/addQuestion', function(req, res){
+    "use strict";
+    var testId = req.headers.testId;
+    var curentNumber = req.headers.curentNumber;
+    console.log(testId);
+    if(testId != undefined) {
+        return res.json(result[0]);
+    } else {
+        return res.send({
+            "identity": "account",
+            "method": "POST",
+            "version_sender": "1.0.0",
+            "version_actual": "1.0.0",
+            "data": {
+                "accessToken": accessToken
+            },
+            "date": registered,
+            "code": 200,
+            "message": "OK",
+            "status": "error",
+            "input": {}
+        });
+    }
+
+});
+
+app.post('/account/addQuestion', function(req, res){
+    "use strict";
+    var Question =new questionModel({
+        "testId": {"type": "string"},
+        "total": {"type": "string"},
+        "current number":{"type": "string"},
+        "codeName": {"type": "string"},
+        "question": {"type": "string"},
+        "answers": {"type": "array"},
+        "answerMultiple": {"type": "boolean"},
+        "answerCorrect": {"type": "array"},
+        "score": {"type": "string"}
+    })
+    var testId = req.headers.testId;
+    var curentNumber = req.headers.curentNumber;
+    questionModel.finde({testId:testId, curentNumber:curentNumber}, function(err, result){
+        if(!err){
+            return res.json(result[0]);
+        } else {
+            return res.send(err)
+        }
+    });
+});
+
+app.get('/account/addQuestion', function(req, res){
+    "use strict";
+    var testId = req.headers.testId;
+    var curentNumber = req.headers.curentNumber;
+    console.log(testId);
+    if(testId != undefined) {
+        return res.json(result[0]);
+    } else {
+        return res.send({
+            "identity": "account",
+            "method": "POST",
+            "version_sender": "1.0.0",
+            "version_actual": "1.0.0",
+            "data": {
+                "accessToken": accessToken
+            },
+            "date": registered,
+            "code": 200,
+            "message": "OK",
+            "status": "error",
+            "input": {}
+        });
+    }
+
+});
+
+app.post('/account/addQuestion', function(req, res){
+    "use strict";
+    var testId = req.headers.testId;
+    var curentNumber = req.headers.curentNumber;
+    questionModel.finde({testId:testId, curentNumber:curentNumber}, function(err, result){
+        if(!err){
+            return res.json(result[0]);
+        } else {
+            return res.send(err)
+        }
+    });
+});
+
+//app.get('/users', function(req, res){
+//    "use strict";
+//
+//});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
