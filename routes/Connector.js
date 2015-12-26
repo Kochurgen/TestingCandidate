@@ -32,9 +32,17 @@ var Question = new mongoose.Schema({
         "answerCorrect": {"type": "array"},
         "score": {"type": "string"}
 });
+
+var Test = new mongoose.Schema({
+    "testId":{"type": "string"},
+    "testName":{"type":"string"}
+});
+
 var QuestionModel=mongoose.model('Question', Question);
 var SignupModel = mongoose.model('Signup', Signup);
 var SigninModel = mongoose.model('Signin', Signin);
+var TestModel = mongoose.model('Test', Test);
 module.exports.SignupModel = SignupModel;
 module.exports.SigninModel = SigninModel;
 module.exports.QuestionModel = QuestionModel;
+module.exports.TestModel = TestModel;

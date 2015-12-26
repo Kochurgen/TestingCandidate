@@ -16,7 +16,8 @@ var question = require('./routes/question');
 var create_question = require('./routes/createQuestion');
 var SignupModel = require('./routes/Connector').SignupModel;
 var SigninModel= require('./routes/Connector').SigninModel;
-var QuestionModel = require('./routes/question').QuestionModel;
+var QuestionModel = require('./routes/Connector').QuestionModel;
+var TestModel = require('./routes/Connector').TestModel;
 var app = express();
 
 //var string = "This is my compression test.";
@@ -38,10 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
-//app.use('/question', question);
-//app.use('/create-question', create_question);
-//app.use('/account/signup', signup);
-//app.use('/account/signin', signin);
+
 app.get('/account/signup', function(req, res){
   "use strict";
   return Signup.find(function(err, articles){
@@ -248,7 +246,7 @@ app.post('/account/question', function(req, res){
     "use strict";
     var testId = req.headers.testId;
     var curentNumber = req.headers.curentNumber;
-    questionModel.finde({testId:testId, curentNumber:curentNumber}, function(err, result){
+    questionModel.find({testId:testId, curentNumber:curentNumber}, function(err, result){
         if(!err){
             return res.json(result[0]);
         } else {
@@ -298,7 +296,7 @@ app.post('/account/addQuestion', function(req, res){
     })
     var testId = req.headers.testId;
     var curentNumber = req.headers.curentNumber;
-    questionModel.finde({testId:testId, curentNumber:curentNumber}, function(err, result){
+    questionModel.find({testId:testId, curentNumber:curentNumber}, function(err, result){
         if(!err){
             return res.json(result[0]);
         } else {
@@ -337,11 +335,91 @@ app.post('/account/addQuestion', function(req, res){
     "use strict";
     var testId = req.headers.testId;
     var curentNumber = req.headers.curentNumber;
-    questionModel.finde({testId:testId, curentNumber:curentNumber}, function(err, result){
+    questionModel.find({testId:testId, curentNumber:curentNumber}, function(err, result){
         if(!err){
             return res.json(result[0]);
         } else {
             return res.send(err)
+        }
+    });
+});
+
+app.get('/account/getTestlist', function(req, res){
+    "use strict";
+    TestModel.find({}, function(err, result){
+        if(!err){
+            if(result.length > 0) {
+                console.log(result);
+                res.render('tests.jade', {title:'Express', docs:result[0]});
+                //return res.send({
+                //    "identity": "account",
+                //    "method": "POST",
+                //    "version_sender": "1.0.0",
+                //    "version_actual": "1.0.0",
+                //    "data": {
+                //    },
+                //    "date": Date.now(),
+                //    "code": 200,
+                //    "message": "OK",
+                //    "status": "error",
+                //    "input": {}
+                //});
+            } else {
+            //return res.send({
+            //    "identity": "account",
+            //    "method": "POST",
+            //    "version_sender": "1.0.0",
+            //    "version_actual": "1.0.0",
+            //    "data": {
+            //    },
+            //    "date": Date.now(),
+            //    "code": 200,
+            //    "message": "OK",
+            //    "status": "error",
+            //    "input": {}
+            //});
+           }
+        }
+    });
+});
+
+app.post('/account/addTest', function(req, res){
+    "use strict";
+    var testName = req.headers.testname;
+    console.log(testName);
+    var token = {
+        "testName": testName,
+        "security": {
+            "tokenLife": 3600
+        }
+    };
+    var result = lzString.compress(token);
+    var testID = uuid.v1(result);
+    var testModel = new TestModel({
+        "testName": testName,
+        "testID": testID
+    });
+    testModel.save(function (err, users) {
+        if (err) {
+            return console.error(err);
+        } else {
+            res.statusCode = 201;
+            res.json({
+                    "identity": "account",
+                    "method": "POST",
+                    "version_sender": "1.0.0",
+                    "version_actual": "1.0.0",
+                    "data": {
+                        users: users
+                    },
+                    "date": Date.now(),
+                    "code": 201,
+                    "message": "OK",
+                    "status": "success",
+                    "input": {
+                    },
+                    "error": err
+            });
         }
     });
 });

@@ -7,7 +7,7 @@ var url = 'mongodb://localhost:27017/tes';
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  console.log(res);
+
   MongoClient.connect(url, function(err, db){
     if(err){
       console.log('Unable to connect to the mongoDB server. Error:', err);
@@ -15,13 +15,13 @@ router.get('/', function(req, res, next) {
       // Get the documents collection
       var collection = db.collection('users');
       // Get all documents
-      collection.find().toArray(function(err, docs) {
+      collection.find({},{email: 1, password: 1, _id: 0}).toArray(function(err, docs) {
         users = docs;
-        console.log(docs);
+        //res.send(docs);
+        res.render('users.jade', {title: 'Express', docs: docs});
       });
     }
   });
-  res.send(users);
 });
 
 module.exports = router;
