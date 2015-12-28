@@ -16,9 +16,9 @@ var signup =require('./routes/signup');
 var signin = require('./routes/signin');
 var app = express();
 var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/tes');gi
-var db = mongoose.connection;
+//
+//mongoose.connect('mongodb://localhost:27017/tes');
+//var db = mongoose.connection;
 module.exports = mongoose;
 console.log(mongoose);
 

@@ -29,12 +29,11 @@ router.get("/", function(req, res, next) {
 });
 router.post('/', function(req, res, next) {
         var mongoose = require('../app').mongoose;
-        console.log(mongoose);
         var db = require('../app').db;
         var registred = req._startTime;
-        var opts = { db: { native_parser: true }}
+        var opts = { db: { native_parser: true }};
         db.on('error', console.error);
-        //mongoose.connect('mongodb://localhost:27017/tes');
+        mongoose.connect('mongodb://localhost:27017/tes');
         db.once('open', function () {
             var email = req.headers.email;
             var password = req.headers.password;

@@ -109,7 +109,7 @@ router.get('/', function(req, res, next) {
                             return console.error(err);
                         }else {
                             var id = users._id;
-                            res.send({accessToken, id});
+                            res.send({accessToken:accessToken, id:id});
                         }
                     });
                 }
