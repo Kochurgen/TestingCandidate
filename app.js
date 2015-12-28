@@ -13,6 +13,7 @@ var routes = require('./routes/createQuestion');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var question = require('./routes/question');
+var getTest = require('./routes/getTests');
 var create_question = require('./routes/createQuestion');
 var SignupModel = require('./routes/Connector').SignupModel;
 var SigninModel= require('./routes/Connector').SigninModel;
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/login', login);
+app.use('/account/getTestlist', getTest);
 
 app.get('/account/signup', function(req, res){
   "use strict";
@@ -344,42 +346,13 @@ app.post('/account/addQuestion', function(req, res){
     });
 });
 
-app.get('/account/getTestlist', function(req, res){
-    "use strict";
-    TestModel.find({}, function(err, result){
-        if(!err){
-            if(result.length > 0) {
-                console.log(result);
-                res.render('tests.jade', {title:'Express', docs:result[0]});
-                //return res.send({
-                //    "identity": "account",
-                //    "method": "POST",
-                //    "version_sender": "1.0.0",
-                //    "version_actual": "1.0.0",
-                //    "data": {
-                //    },
-                //    "date": Date.now(),
-                //    "code": 200,
-                //    "message": "OK",
-                //    "status": "error",
-                //    "input": {}
-                //});
-            } else {
-            //return res.send({
-            //    "identity": "account",
-            //    "method": "POST",
-            //    "version_sender": "1.0.0",
-            //    "version_actual": "1.0.0",
-            //    "data": {
-            //    },
-            //    "date": Date.now(),
-            //    "code": 200,
-            //    "message": "OK",
-            //    "status": "error",
-            //    "input": {}
-            //});
-           }
-        }
+app.delete('/account/delTest', function(req, res) {
+    var testName = req.headers.testname;
+    console.log(testName);
+    TestModel.remove({testName:testName}, function(err, users) {
+        if(err) res.json(err);
+        res.json(users);
+        console.log('Selected students was deleted');
     });
 });
 
@@ -397,37 +370,33 @@ app.post('/account/addTest', function(req, res){
     var testID = uuid.v1(result);
     var testModel = new TestModel({
         "testName": testName,
-        "testID": testID
+        "testIndex": testID
     });
     testModel.save(function (err, users) {
         if (err) {
             return console.error(err);
         } else {
             res.statusCode = 201;
-            res.json({
-                    "identity": "account",
-                    "method": "POST",
-                    "version_sender": "1.0.0",
-                    "version_actual": "1.0.0",
-                    "data": {
-                        users: users
-                    },
-                    "date": Date.now(),
-                    "code": 201,
-                    "message": "OK",
-                    "status": "success",
-                    "input": {
-                    },
-                    "error": err
-            });
+            res.json(users);
+            //    {
+            //        "identity": "account",
+            //        "method": "POST",
+            //        "version_sender": "1.0.0",
+            //        "version_actual": "1.0.0",
+            //        "data": {
+            //            users: users
+            //        },
+            //        "date": Date.now(),
+            //        "code": 201,
+            //        "message": "OK",
+            //        "status": "success",
+            //        "input": {
+            //        },
+            //        "error": err
+            //});
         }
     });
 });
-
-//app.get('/users', function(req, res){
-//    "use strict";
-//
-//});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

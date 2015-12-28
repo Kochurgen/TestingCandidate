@@ -34,7 +34,7 @@ var Question = new mongoose.Schema({
 });
 
 var Test = new mongoose.Schema({
-    "testId":{"type": "string"},
+    "testIndex":{"type": "string"},
     "testName":{"type":"string"}
 });
 

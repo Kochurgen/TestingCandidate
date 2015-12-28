@@ -1,27 +1,54 @@
 extends layout
 block content
-    h1= title
-    p Welcome to our test
-
-    // Wrapper
-    #wrapper
-
-        // USER LIST
-        h2 User List
-        #userList
-            table
-                thead
-                    th UserName
-                    th Email
-                    th Delete
-                tbody
-                    each result, key in docs
-                        tr
-                            each value, key in result
-                                th #{value}
-
-                            th
-                                button= "delete"
+    div.navbar.navbar-fixed-top
+        div.container-fluid
+            // Wrapper
+            #wrapper.row
+                div.col-sm-3.col-md-2.sidebar
+                    h1= title
+                    p Welcome to our test
+                    ul.nav
+                        li
+                            a= "Tests"
+                        li
+                            a= "Users"
+                        li
+                            a= "Results"
+                    ul.nav
+                        li
+                            a= "Tests"
+                        li
+                            a= "Users"
+                        li
+                            a= "Results"
+                    ul.nav
+                        li
+                            a= "Tests"
+                        li
+                            a= "Users"
+                        li
+                            a= "Results"
+                div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+                    // USER LIST
+                    h1.page-header= title
+                    p Welcome to our test
+                    form.navbar-form.navbar-right
+                        input(type="text", placeholder="add").form-control
+                        input(type="button", value="Create Test").form-control
+                    h2 User List
+                    #userList.table-responsive
+                        table.table.table-striped
+                            thead
+                                th Test Name
+                                th TestId
+                                th Delete
+                            tbody
+                                each result, key in docs
+                                    tr
+                                        each value, key in result
+                                            th #{value}
+                                        th
+                                            button= "delete"
         // /USER LIST
 
     // /WRAPPER
