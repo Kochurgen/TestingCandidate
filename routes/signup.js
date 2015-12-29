@@ -7,7 +7,7 @@ var uuid = require('node-uuid');
 var router = express.Router();
 
 router.get("/", function(req, res, next) {
-    res.send({
+    res.json({
             "identity": "account",
             "method": "POST",
             "version_sender": "1.0.0",
@@ -81,7 +81,7 @@ router.post("/", function (req, res, next) {
                             return console.error(err);
                         } else {
                             var id = users._id;
-                            res.send({
+                            res.json({
                                     "identity": "account",
                                     "method": "POST",
                                     "version_sender": "1.0.0",

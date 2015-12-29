@@ -4,6 +4,8 @@ var express = require('express');
 var lzString = require("lz-string");
 var uuid = require('node-uuid');
 var router = express.Router();
+var mongoose = require('mongoose');
+
 
 router.get("/", function(req, res, next) {
     res.send({
@@ -28,8 +30,8 @@ router.get("/", function(req, res, next) {
     );
 });
 router.post('/', function(req, res, next) {
-        var mongoose = require('../app').mongoose;
-        var db = require('../app').db;
+        //var db = mongoose.connection;
+
         var registred = req._startTime;
         var opts = { db: { native_parser: true }};
         db.on('error', console.error);
