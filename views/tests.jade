@@ -1,41 +1,29 @@
 extends layout
+
 block content
     div.navbar.navbar-fixed-top
         div.container-fluid
             // Wrapper
             #wrapper.row
                 div.col-sm-3.col-md-2.sidebar
-                    h1= title
-                    p Welcome to our test
+                    h1= "Menu"
                     ul.nav
                         li
-                            a= "Tests"
+                            a#getTests="Tests"
                         li
-                            a= "Users"
-                        li
-                            a= "Results"
-                    ul.nav
-                        li
-                            a= "Tests"
-                        li
-                            a= "Users"
+                            a#getUsers= "Users"
                         li
                             a= "Results"
-                    ul.nav
                         li
-                            a= "Tests"
-                        li
-                            a= "Users"
-                        li
-                            a= "Results"
+                            a= "Pictures"
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                     // USER LIST
-                    h1.page-header= title
+                    h1.page-header= "Tests List"
                     p Welcome to our test
                     form.navbar-form.navbar-right
-                        input(type="text", placeholder="add").form-control
-                        input(type="button", value="Create Test").form-control
-                    h2 User List
+                        input(type="text", placeholder="Add name new test").form-control
+                        input(type="button", value="Create Test").form-control.btn-primary
+                    h2 Test List
                     #userList.table-responsive
                         table.table.table-striped
                             thead
@@ -48,7 +36,9 @@ block content
                                         each value, key in result
                                             th #{value}
                                         th
-                                            button= "delete"
+                                            button#delete.btn.btn-primary= "Delete"
+                                        th
+                                            button#edit.btn.btn-primary= "Edit"
         // /USER LIST
 
     // /WRAPPER
