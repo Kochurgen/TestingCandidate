@@ -9,9 +9,9 @@ block content
                     h1= "Menu"
                     ul.nav
                         li
-                            a#getTests="Tests"
+                            a(href="/account/getTestlist")#getTests="Tests"
                         li
-                            a#getUsers= "Users"
+                            a(href="/users")#getUsers= "Users"
                         li
                             a= "Results"
                         li
@@ -19,7 +19,6 @@ block content
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                     // USER LIST
                     h1.page-header= "Tests List"
-                    p Welcome to our test
                     form.navbar-form.navbar-right
                         input(type="text", placeholder="Add name new test").form-control
                         input(type="button", value="Create Test").form-control.btn-primary
@@ -29,7 +28,8 @@ block content
                             thead
                                 th Test Name
                                 th TestId
-                                th Delete
+                                th
+                                th\
                             tbody
                                 each result, key in docs
                                     tr

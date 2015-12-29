@@ -44,10 +44,11 @@ app.use('/account/getTestlist', getTest);
 
 app.get('/account/signup', function(req, res){
   "use strict";
-  return Signup.find(function(err, articles){
+
+  return SignupModel.find({},function(err, articles){
     console.log(articles);
     if (!err) {
-      return res.send(articles);
+      return res.render('users.jade', {title: 'Express', docs: articles});
     } else {
       res.statusCode =500;
       return res.send({error: 'Server error'});
@@ -61,8 +62,8 @@ app.post('/account/signup', function(req, res) {
     var registered = Date.now();
     var email = req.headers.email;
     var password = req.headers.password;
-    var mongoose = require('mongoose');
-    var db = mongoose.connection;
+    //var mongoose = require('mongoose');
+    //var db = mongoose.connection;
     var token = {
         "fullName": fullName,
         "email": email,
@@ -75,6 +76,7 @@ app.post('/account/signup', function(req, res) {
     var result = lzString.compress(token);
     var accessToken = uuid.v1(result);
   return SignupModel.find({email:req.headers.email}, function(err, users){
+      console.log(users);
     if (err) {
       return console.error(err);
     } else {

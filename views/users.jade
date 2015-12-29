@@ -1,27 +1,46 @@
 extends layout
+
 block content
-    h1= title
-    p Welcome to our test
-
-    // Wrapper
-    #wrapper
-
-        // USER LIST
-        h2 User List
-        #userList
-            table
-                thead
-                    th UserName
-                    th Email
-                    th Delete
-                tbody
-                    each result, key in docs
-                        tr #{result}
-                            each value, key in result
-                                th #{value}
-
-                            th
-                                button= "delete"
+    div.navbar.navbar-fixed-top
+        div.container-fluid
+            // Wrapper
+            #wrapper.row
+                div.col-sm-3.col-md-2.sidebar
+                    h1= "Menu"
+                    ul.nav
+                        li
+                            a(href="/account/getTestlist")#getTests="Tests"
+                        li
+                            a(href="/users")#getUsers= "Users"
+                        li
+                            a= "Results"
+                        li
+                            a= "Pictures"
+                div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+                    // USER LIST
+                    h1.page-header= "Users List"
+                    form.navbar-form.navbar-right
+                        input(type="text", placeholder="Username").form-control
+                        input(type="email", placeholder="Email").form-control
+                        input(type="password", placeholder="password").form-control
+                        input(type="button", value="Add User").form-control.btn-primary
+                    h2 Users List
+                    #userList.table-responsive
+                        table.table.table-striped
+                            thead
+                                th User Name
+                                th Email
+                                th
+                                th
+                            tbody
+                                each result, key in docs
+                                    tr
+                                        each value, key in result
+                                            th #{value}
+                                        th
+                                            button#delete.btn.btn-primary= "Delete"
+                                        th
+                                            button#edit.btn.btn-primary= "Edit"
         // /USER LIST
 
     // /WRAPPER

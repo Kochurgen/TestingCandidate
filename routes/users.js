@@ -13,11 +13,13 @@ router.get('/', function(req, res, next) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
     } else {
       // Get the documents collection
-      var collection = db.collection('users');
+      var collection = db.collection('Signup');
       // Get all documents
-      collection.find({},{email: 1, password: 1, _id: 0}).toArray(function(err, docs) {
+      collection.find().toArray(function(err, docs) {
+        //{},{fullName: 1, email: 1, password: 1, accesToken: 1, _id: 0}
         users = docs;
         //res.send(docs);
+        console.log(docs);
         res.render('users.jade', {title: 'Express', docs: docs});
       });
     }
