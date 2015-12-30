@@ -30,17 +30,18 @@ block content
                             thead
                                 th User Name
                                 th Email
-                                th
-                                th
+                                th Password
+                                th Token
                             tbody
+                                -var index = 0
                                 each result, key in docs
-                                    tr
+                                    tr(id=index++)
                                         each value, key in result
-                                            th #{value}
+                                            th(id="#{key}-#{index}") #{value}
                                         th
-                                            button#delete.btn.btn-primary= "Delete"
+                                            button(id="delete #{index}").btn.btn-primary= "Delete"
                                         th
-                                            button#edit.btn.btn-primary= "Edit"
+                                            button(id="edit #{index}").btn.btn-primary= "Edit"
         // /USER LIST
 
     // /WRAPPER

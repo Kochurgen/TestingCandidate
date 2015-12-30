@@ -1,24 +1,26 @@
-(function(exports, undefined) {
-    url = "localhost:3000";
-    console.log('connect');
-    $('#getTests').on('click', getTestsList());
-    $('#getUsers').on('click', getUsers());
++function($, undefined) {
+//    window.tResult = function() {
+       var url = "http://localhost:3000";
+        console.log('connect');
+        $('#edit').on('click', getTestsList());
+        $('#delete').on('click', getUsers());
 
-    function getUsers() {
-        $.ajax({
-            url: url + "/account/getUsers",
-            context: document.body
-        }).done(function () {
+  window.getUsers = function() {
+            $.ajax({
+                url: url + "/users",
+                context: document.body
+            }).done(function () {
 
-        });
-    }
+            });
+        };
 
-    function getTestsList() {
-        $.ajax({
-            url: url + "/account/getTestlist",
-            context: document.body
-        }).done(function () {
+  window.getTestsList= function () {
+            $.ajax({
+                url: url + "/account/getTestlist",
+                context: document.body
+            }).done(function () {
 
-        });
-    }
-});
+            });
+        };
+//    }
+}(jQuery);

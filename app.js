@@ -404,8 +404,8 @@ app.post('/account/addTest', function(req, res){
 
 app.delete('/account/delUsers', function(req, res) {
     var email = req.headers.email;
-    console.log(testName);
-    SignupModel.remove({email:email}, function(err, users) {
+    console.log(email);
+    SignupModel.remove({__v:email}, function(err, users) {
         if(err) res.json(err);
         res.json(users);
         console.log('Selected students was deleted');

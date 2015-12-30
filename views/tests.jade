@@ -21,7 +21,7 @@ block content
                     h1.page-header= "Tests List"
                     form.navbar-form.navbar-right
                         input(type="text", placeholder="Add name new test").form-control
-                        input(type="button", value="Create Test").form-control.btn-primary
+                        input(type="button", value="Create Test", onclick="function(e){console.log(e)}").form-control.btn-primary
                     h2 Test List
                     #userList.table-responsive
                         table.table.table-striped
