@@ -14,10 +14,10 @@ var users = require('./routes/users');
 var login = require('./routes/login');
 var question = require('./routes/question');
 var getTest = require('./routes/getTests');
-var create_question = require('./routes/createQuestion');
+//var create_question = require('./routes/createQuestion');
 var SignupModel = require('./routes/Connector').SignupModel;
-var SigninModel= require('./routes/Connector').SigninModel;
-var QuestionModel = require('./routes/Connector').QuestionModel;
+//var SigninModel= require('./routes/Connector').SigninModel;
+//var QuestionModel = require('./routes/Connector').QuestionModel;
 var TestModel = require('./routes/Connector').TestModel;
 var app = express();
 
@@ -58,7 +58,8 @@ app.get('/account/signup', function(req, res){
 
 app.post('/account/signup', function(req, res) {
   "use strict";
-    var fullName = req.headers.fullName;
+    console.log('req.headers',req.headers);
+    var fullName = req.headers.fullname;
     var registered = Date.now();
     var email = req.headers.email;
     var password = req.headers.password;
@@ -75,8 +76,9 @@ app.post('/account/signup', function(req, res) {
     };
     var result = lzString.compress(token);
     var accessToken = uuid.v1(result);
+
   return SignupModel.find({email:req.headers.email}, function(err, users){
-      console.log(users);
+      //console.log('users',users, users.length);
     if (err) {
       return console.error(err);
     } else {
@@ -94,7 +96,7 @@ app.post('/account/signup', function(req, res) {
           if (err) {
             return console.error(err);
           } else {
-            var id = users._id;
+              //console.log('usersSave',users, users.length);
               res.statusCode = 201;
             res.json({
                   "identity": "account",
@@ -127,7 +129,7 @@ app.post('/account/signup', function(req, res) {
                   "accessToken": accessToken
               },
               "date": registered,
-              "code": 201,
+              "code": 200,
               "message": "OK",
               "status": "success",
               "input": {
@@ -397,6 +399,16 @@ app.post('/account/addTest', function(req, res){
             //        "error": err
             //});
         }
+    });
+});
+
+app.delete('/account/delUsers', function(req, res) {
+    var email = req.headers.email;
+    console.log(testName);
+    SignupModel.remove({email:email}, function(err, users) {
+        if(err) res.json(err);
+        res.json(users);
+        console.log('Selected students was deleted');
     });
 });
 
