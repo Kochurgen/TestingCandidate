@@ -1,15 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var mongodb = require('mongodb');
+var dbUrl = require('../config').dbURL;
 var MongoClient = mongodb.MongoClient;
 var users;
-var url = 'mongodb://localhost:27017/tes';
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     console.log(res);
     var accessToken = req._verefyToken;
-    MongoClient.connect(url, function(err, db){
+    MongoClient.connect(dbUrl, function(err, db){
         if(err){
             console.log('Unable to connect to the mongoDB server. Error:', err);
         } else {

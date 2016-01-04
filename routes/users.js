@@ -3,12 +3,12 @@ var router = express.Router();
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var users;
-var url = 'mongodb://localhost:27017/tes';
+var dbUrl = require('../config.json').dbURL;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 
-  MongoClient.connect(url, function(err, db){
+  MongoClient.connect(dbUrl, function(err, db){
     if(err){
       console.log('Unable to connect to the mongoDB server. Error:', err);
     } else {
@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
         users = docs;
         //res.send(docs);
         console.log('docs',docs);
-        res.render('users.jade', {title: 'Express', docs: docs});
+        res.render('users.jade', {title: 'Express', data: docs});
       });
     }
   });

@@ -1,6 +1,7 @@
 var mongoose    = require('mongoose');
 //var log         = require('./log')(module);
-mongoose.connect('mongodb://localhost:27017/tes');
+var dbUrl = require("../config").dbURL;
+mongoose.connect(dbUrl);
 var db = mongoose.connection;
 db.on('error', function (err) {
 

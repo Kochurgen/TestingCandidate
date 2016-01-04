@@ -1,113 +1,130 @@
-
 "use strict";
 
 var express = require('express');
 var lzString = require("lz-string");
 var uuid = require('node-uuid');
 var router = express.Router();
+var SignupModel = require('./Connector').SignupModel;
 
-router.get("/", function(req, res, next) {
-    res.json({
-            "identity": "account",
-            "method": "POST",
-            "version_sender": "1.0.0",
-            "version_actual": "1.0.0",
-            "data": {
-                "accessToken": "sdfgvcw7icy5e485"
-            },
-            "date": Date.now(),
-            "code": 200,
-            "message": "OK",
-            "status": "success",
-            "input": {
-                "fullName": "fullName",
-                "email": "email",
-                "password": "password"
-            },
-            "error": "error"
+/* GET options. */
+router.get('/', function(req, res){
+    "use strict";
+
+    return SignupModel.find({},function(err, articles){
+        console.log(articles);
+        if (!err) {
+            res.statusCode = 400;
+            return res.json({
+                "identity": "account",
+                "method": "POST",
+                "version_sender": "1.0.0",
+                "version_actual": "1.0.0",
+                "data": {
+                    "accessToken": accessToken
+                },
+                "date": registered,
+                "code": 400,
+                "message": "OK",
+                "status": "success",
+                "input": {
+                    "fullName": '',
+                    "email": '',
+                    "password": ''
+                },
+                "error": err
+            });
+
+        } else {
+            res.statusCode =500;
+            return res.send({error: 'Server error'});
         }
-    );
+    })
 });
-router.post("/", function (req, res, next) {
-    console.log(req.headers.email);
-    var fullName = req.headers.fullName;
+
+/* Post new user. */
+router.post('/', function(req, res) {
+    "use strict";
+    console.log('req.headers',req.headers);
+    var fullName = req.headers.fullname;
     var registered = Date.now();
     var email = req.headers.email;
     var password = req.headers.password;
-    var mongoose = require('mongoose');
-    var db = mongoose.connection;
-    var registred = req._startTime;
-    db.on('error', console.error);
-    mongoose.connect('mongodb://localhost:27017/tes');
-    db.once('open', function () {
-        var movieSchema = new mongoose.Schema({
-            "fullName": {"type": "string"},
-            "email": {"type": "string"},
-            "password": {"type": "string"},
-            "accesToken": {"type": "string"}
-        });
+    var token = {
+        "fullName": fullName,
+        "email": email,
+        "password": password,
+        registered: registered,
+        "security": {
+            "tokenLife": 3600
+        }
+    };
+    var result = lzString.compress(token);
+    var accessToken = uuid.v1(result);
 
-        var Users = mongoose.model('Users', movieSchema);
-        var findeResult = [];
-        var token = {
-            "fullName": fullName,
-            "email": email,
-            "password": password,
-            registered: registered,
-            "security": {
-                "tokenLife": 3600
-            }
-        };
-        var result = lzString.compress(token);
-        var accessToken = uuid.v1(result);
-        Users.find({email: email}, function (err, users) {
-            if (err) {
-                return console.error(err);
-            } else {
-                findeResult = [];
-                findeResult = users;
-                console.log(users);
-                if (findeResult.length == 0) {
-                    var users1 = new Users(
-                        {
-                            "fullName": fullName,
-                            "email": email,
-                            "password": password,
-                            "accesToken": accessToken
-
+    return SignupModel.find({email:req.headers.email}, function(err, users){
+        //console.log('users',users, users.length);
+        if (err) {
+            return console.error(err);
+        } else {
+            var findeResult = [];
+            findeResult = users;
+            if (findeResult.length == 0) {
+                var signupModel = new SignupModel({
+                    "fullName": fullName,
+                    "email": email,
+                    "password": password,
+                    "accesToken": accessToken
+                });
+                signupModel.save(function (err, users) {
+                    if (err) {
+                        return console.error(err);
+                    } else {
+                        //console.log('usersSave',users, users.length);
+                        res.statusCode = 201;
+                        return res.json({
+                            "identity": "account",
+                            "method": "POST",
+                            "version_sender": "1.0.0",
+                            "version_actual": "1.0.0",
+                            "data": {
+                                "accessToken": accessToken
+                            },
+                            "date": registered,
+                            "code": 201,
+                            "message": "OK",
+                            "status": "success",
+                            "input": {
+                                "fullName": fullName,
+                                "email": email,
+                                "password": password
+                            },
+                            "error": err
                         });
-                    users1.save(function (err, users) {
-                        if (err) {
-                            return console.error(err);
-                        } else {
-                            var id = users._id;
-                            res.json({
-                                    "identity": "account",
-                                    "method": "POST",
-                                    "version_sender": "1.0.0",
-                                    "version_actual": "1.0.0",
-                                    "data": {
-                                        "accessToken": accessToken
-                                    },
-                                    "date": registered,
-                                    "code": 201,
-                                    "message": "OK",
-                                    "status": "success",
-                                    "input": {
-                                        "fullName": fullName,
-                                        "email": email,
-                                        "password": password
-                                    },
-                                    "error": err
-                                }
-                            );
-                        }
-                    });
-                }
+                    }
+                });
+            } else {
+                res.statusCode = 400;
+                return res.json({
+                    "identity": "account",
+                    "method": "POST",
+                    "version_sender": "1.0.0",
+                    "version_actual": "1.0.0",
+                    "data": {
+                        "accessToken": accessToken
+                    },
+                    "date": registered,
+                    "code": 400,
+                    "message": "OK",
+                    "status": "success",
+                    "input": {
+                        "fullName": fullName,
+                        "email": email,
+                        "password": password
+                    },
+                    "error": err
+                });
             }
-        });
+        }
     });
-
 });
-
 module.exports = router;

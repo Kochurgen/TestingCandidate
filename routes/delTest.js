@@ -1,0 +1,51 @@
+"use strict";
+
+var express = require('express');
+var router = express.Router();
+var TestModel = require('./Connector').TestModel;
+
+/* GET users listing. */
+router.delete('/', function(req, res){
+    var testName = req.headers.testname;
+    TestModel.remove({testName:testName}, function(err, users) {
+        if(!err) {
+            return res.json({
+                "identity": "account",
+                "method": "POST",
+                "version_sender": "1.0.0",
+                "version_actual": "1.0.0",
+                "data": {
+                    "accessToken": accessToken
+                },
+                "date": Date.now(),
+                "code": 200,
+                "message": "OK",
+                "status": "success",
+                "input": {
+                    testName: testName
+                },
+                "error": null
+            });
+        } else {
+            res.statusCode = 500;
+            res.json({
+                "identity": "account",
+                "method": "POST",
+                "version_sender": "1.0.0",
+                "version_actual": "1.0.0",
+                "data": {
+                    "accessToken": accessToken
+                },
+                "date": Date.now(),
+                "code": 500,
+                "message": "OK",
+                "status": "success",
+                "input": {
+                    testName: testName
+                },
+                "error": null
+            });
+        }
+    });
+});
+module.exports = router;

@@ -1,11 +1,11 @@
 +function($, undefined) {
-//    window.tResult = function() {
        var url = "http://localhost:3000";
+       var result = "connect";
         console.log('connect');
         $('#edit').on('click', getTestsList());
         $('#delete').on('click', getUsers());
 
-  window.getUsers = function() {
+  getUsers = function() {
             $.ajax({
                 url: url + "/users",
                 context: document.body
@@ -14,7 +14,7 @@
             });
         };
 
-  window.getTestsList= function () {
+  getTestsList= function () {
             $.ajax({
                 url: url + "/account/getTestlist",
                 context: document.body
@@ -22,5 +22,5 @@
 
             });
         };
-//    }
+    return result;
 }(jQuery);

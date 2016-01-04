@@ -4,90 +4,85 @@ var express = require('express');
 var lzString = require("lz-string");
 var uuid = require('node-uuid');
 var router = express.Router();
-var mongoose = require('mongoose');
+var SignupModel = require('./Connector').SignupModel;
 
-
-router.get("/", function(req, res, next) {
-    res.send({
-            "identity": "account",
-            "method": "POST",
-            "version_sender": "1.0.0",
-            "version_actual": "1.0.0",
-            "data": {
-                "accessToken": "sdfgvcw7icy5e485"
-            },
-            "date": Date.now(),
-            "code": 200,
-            "message": "OK",
-            "status": "success",
-            "input": {
-                "fullName": "fullName",
-                "email": "email",
-                "password": "password"
-            },
-            "error": "err"
-        }
-    );
-});
-router.post('/', function(req, res, next) {
-        //var db = mongoose.connection;
-
-        var registred = req._startTime;
-        var opts = { db: { native_parser: true }};
-        db.on('error', console.error);
-        mongoose.connect('mongodb://localhost:27017/tes');
-        db.once('open', function () {
-            var email = req.headers.email;
-            var password = req.headers.password;
-            var movieSchema = new mongoose.Schema({
-                "email": {"type": "string"},
-                "password": {"type": "string"}
+router.get("/", function(req, res){
+    "use strict";
+    return SignupModel.find({}, function(err, articles){
+        if (!err) {
+            res.statusCode = 400;
+            res.send({
+                "identity": "account",
+                "method": "POST",
+                "version_sender": "1.0.0",
+                "version_actual": "1.0.0",
+                "data": {
+                    "accessToken": "sdfgvcw7icy5e485"
+                },
+                "date": Date.now(),
+                "code": 400,
+                "message": "OK",
+                "status": "success",
+                "input": {
+                    "email": '',
+                    "password": ''
+                },
+                "error": 'err'
             });
-            var Users = mongoose.model('Users', movieSchema);
-            var findeResult = [];
-            if (email != "undefined") {
-                Users.find({email: email, password: password}, function (err, users) {
-                    if (err) {
-                        return console.error(err);
-                        res.send('error');
-                    } else {
-                        if(users.length > 0) {
-                            res.send({
-                                "identity": "account",
-                                "version_sender": "1.0.0",
-                                "version_actual": "1.0.0",
-                                "data": {
-                                    "accessToken": users[0].get('accesToken')
-                                },
-                                "date": registred,
-                                "code": 200,
-                                "message": "OK",
-                                "status": "succes",
-                                "input": {},
-                                "error": err
-                            });
-                        } else{
-                            res.send(
-                                {
-                                    "identity": "account",
-                                    "version_sender": "1.0.0",
-                                    "version_actual": "1.0.0",
-                                    "data": {
-                                        "accessToken": null
-                                    },
-                                    "date": registred,
-                                    "code": 200,
-                                    "message": "OK",
-                                    "status": "error",
-                                    "input": {},
-                                    "error": err
-                                }
-                            );
+        } else {
+            res.statusCode =500;
+            return res.send({error: 'Server error'});
+        }
+    })
+});
+router.post('/', function(req, res){
+    "use strict";
+    var registered = Date.now();
+    var email = req.headers.email;
+    var password = req.headers.password;
+    return SignupModel.find({email:email, password: password}, function(err, users){
+        if (err) {
+            return console.error(err);
+        } else {
+            console.log('users',users);
+            if(users.length > 0) {
+                var accessToken;
+                console.log('users',users[0].get('accesToken'));
+                if (users[0].get('accesToken') == 0){
+                    var token = {
+                        "email": email,
+                        "password": password,
+                        "registered": registered,
+                        "security": {
+                            "tokenLife": 3600
                         }
-                    }
+                    };
+                    var result = lzString.compress(token);
+                    accessToken = uuid.v1(result);
+                }else {
+                    accessToken = users[0].get('accesToken');
+                }
+                res.statusCode = 200;
+                res.json({
+                    "identity": "account",
+                    "version_sender": "1.0.0",
+                    "version_actual": "1.0.0",
+                    "data": {
+                        "accessToken": accessToken
+                    },
+                    "date": registered,
+                    "code": 200,
+                    "message": "OK",
+                    "status": "succes",
+                    "input": {
+                        "email": email,
+                        "password": password
+                    },
+                    "error": err
                 });
-            } else {
-                res.send(
+            } else{
+                res.statusCode = 400;
+                res.json(
                     {
                         "identity": "account",
                         "version_sender": "1.0.0",
@@ -95,16 +90,20 @@ router.post('/', function(req, res, next) {
                         "data": {
                             "accessToken": null
                         },
-                        "date": registred,
-                        "code": 200,
+                        "date": registered,
+                        "code": 400,
                         "message": "OK",
                         "status": "error",
-                        "input": {},
+                        "input": {
+                            "email": '',
+                            "password": ''
+                        },
                         "error": err
                     }
                 );
             }
-        });
+        }
+    });
 });
 
 module.exports = router;
