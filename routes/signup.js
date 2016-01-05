@@ -9,9 +9,8 @@ var SignupModel = require('./Connector').SignupModel;
 /* GET options. */
 router.get('/', function(req, res){
     "use strict";
-
-    return SignupModel.find({},function(err, articles){
-        console.log(articles);
+try {
+    return SignupModel.find({}, function (err, articles) {
         if (!err) {
             res.statusCode = 400;
             return res.json({
@@ -20,9 +19,9 @@ router.get('/', function(req, res){
                 "version_sender": "1.0.0",
                 "version_actual": "1.0.0",
                 "data": {
-                    "accessToken": accessToken
+                    "accessToken": null
                 },
-                "date": registered,
+                "date": Date.now(),
                 "code": 400,
                 "message": "OK",
                 "status": "success",
@@ -35,16 +34,23 @@ router.get('/', function(req, res){
             });
 
         } else {
-            res.statusCode =500;
+            res.statusCode = 500;
             return res.send({error: 'Server error'});
         }
     })
+} catch (err) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: err
+    });
+}
 });
 
 /* Post new user. */
 router.post('/', function(req, res) {
     "use strict";
-    console.log('req.headers',req.headers);
+    try {
     var fullName = req.headers.fullname;
     var registered = Date.now();
     var email = req.headers.email;
@@ -89,7 +95,7 @@ router.post('/', function(req, res) {
                             "data": {
                                 "accessToken": accessToken
                             },
-                            "date": registered,
+                            "date": Date.now(),
                             "code": 201,
                             "message": "OK",
                             "status": "success",
@@ -112,7 +118,7 @@ router.post('/', function(req, res) {
                     "data": {
                         "accessToken": accessToken
                     },
-                    "date": registered,
+                    "date": Date.now(),
                     "code": 400,
                     "message": "OK",
                     "status": "success",
@@ -126,5 +132,12 @@ router.post('/', function(req, res) {
             }
         }
     });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 module.exports = router;

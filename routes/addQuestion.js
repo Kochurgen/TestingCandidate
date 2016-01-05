@@ -7,7 +7,7 @@ var questionModel = require('./Connector').QuestionModel;
 /* GET users listing. */
 router.get('/', function(req, res){
     "use strict";
-    console.log(testId);
+    try{
     questionModel.find({}, function(err, result){
     if(!err) {
         res.statusCode =400;
@@ -43,11 +43,19 @@ router.get('/', function(req, res){
         });
     }
 });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 
 router.post('/account/addQuestion', function(req, res){
     "use strict";
-    var testId = req.headers.testId;
+    try{
+    var testIndex = req.headers.testIndex;
     var question = req.headers.question;
     var answerCorrect = req.headers.answerCorrect;
     var answers = req.headers.answers;
@@ -55,7 +63,7 @@ router.post('/account/addQuestion', function(req, res){
     var score = req.headers.score;
     var total = req.headers.total;
     var Question = new questionModel({
-        "testId": testId,
+        "testIndex": testIndex,
         "total": total,
         "codeName": {"type": "string"},
         "question": question,
@@ -64,9 +72,9 @@ router.post('/account/addQuestion', function(req, res){
         "answerCorrect": answerCorrect,
         "score": score
     });
-    var testId = req.headers.testId;
+    var testIndex = req.headers.testIndex;
     var curentNumber = req.headers.curentNumber;
-    questionModel.find({testId:testId, curentNumber:curentNumber}, function(err, result){
+    questionModel.find({testIndex:testIndex, curentNumber:curentNumber}, function(err, result){
         if(!err){
             res.statusCode = 201
             return res.json({
@@ -82,7 +90,7 @@ router.post('/account/addQuestion', function(req, res){
                 "message": "OK",
                 "status": "error",
                 "input": {
-                    "testId": testId,
+                    "testIndex": testIndex,
                     "total": total,
                     "codeName": {"type": "string"},
                     "question": question,
@@ -110,6 +118,13 @@ router.post('/account/addQuestion', function(req, res){
             });
         }
     });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 
 module.exports = router;

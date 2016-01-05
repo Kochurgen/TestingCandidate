@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var mongodb = require('mongodb');
-var dbUrl = require('../config.json').dbURL;
+var dbUrl = require('../config.json').mongo;
+var url = dbUrl.dbURL+":"+dbUrl.port+"/"+dbUrl.dbName;
 var MongoClient = mongodb.MongoClient;
 var users;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-
-    MongoClient.connect(dbUrl, function(err, db){
+try{
+    MongoClient.connect(url, function(err, db){
         if(err){
             console.log('Unable to connect to the mongoDB server. Error:', err);
         } else {
@@ -23,6 +24,13 @@ router.get('/', function(req, res, next) {
             });
         }
     });
+} catch (err) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: err
+    });
+}
 });
 
 module.exports = router;

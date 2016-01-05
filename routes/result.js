@@ -5,6 +5,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    try {
     var ip = req._remoteAddress;
     var mongoose = require('mongoose');
     var db = mongoose.connection;
@@ -32,7 +33,6 @@ router.get('/', function(req, res, next) {
             ]
         });
         var Users = mongoose.model('Users', movieSchema);
-        console.log(1);
         var findeResult = [];
         Users.find({email: email}, function(err, users){
             if (err) {
@@ -40,7 +40,6 @@ router.get('/', function(req, res, next) {
             } else {
                 findeResult = [];
                 findeResult = users;
-                console.log(2, findeResult);
                 if(findeResult.length == 0){
                     var users1 = new Users({
                         "userId": "cwe5ty47cn8597cn4",
@@ -62,6 +61,13 @@ router.get('/', function(req, res, next) {
             }
         });
     });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 module.exports = router;
 

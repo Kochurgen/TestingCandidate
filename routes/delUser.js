@@ -6,6 +6,7 @@ var SignupModel = require('./Connector').SignupModel;
 
 /* GET users listing. */
 router.delete('/', function(req, res){
+    try{
     var email = req.headers.email;
     SignupModel.remove({email:email}, function(err, users) {
         if(!err){
@@ -48,6 +49,12 @@ router.delete('/', function(req, res){
             });
         }
     });
-
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 module.exports = router;

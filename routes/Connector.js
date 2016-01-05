@@ -1,7 +1,8 @@
 var mongoose    = require('mongoose');
 //var log         = require('./log')(module);
-var dbUrl = require("../config").dbURL;
-mongoose.connect(dbUrl);
+var dbUrl = require("../config").mongo;
+var url = dbUrl.dbURL+":"+dbUrl.port+"/"+dbUrl.dbName;
+mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', function (err) {
 
@@ -23,7 +24,7 @@ var Signin = new mongoose.Schema({
 });
 
 var Question = new mongoose.Schema({
-        "testId": {"type": "string"},
+        "testIndex": {"type": "string"},
         "total": {"type": "string"},
         "current number":{"type": "string"},
         "codeName": {"type": "string"},

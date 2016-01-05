@@ -9,7 +9,6 @@ var fs = require('fs');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var login = require('./routes/login');
 var question = require('./routes/question');
 var getTest = require('./routes/getTests');
 var signup = require('./routes/signup');

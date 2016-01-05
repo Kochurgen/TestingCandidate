@@ -6,6 +6,7 @@ var TestModel = require('./Connector').TestModel;
 
 /* GET users listing. */
 router.delete('/', function(req, res){
+    try{
     var testName = req.headers.testname;
     TestModel.remove({testName:testName}, function(err, users) {
         if(!err) {
@@ -47,5 +48,12 @@ router.delete('/', function(req, res){
             });
         }
     });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 module.exports = router;

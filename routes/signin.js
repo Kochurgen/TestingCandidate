@@ -8,6 +8,7 @@ var SignupModel = require('./Connector').SignupModel;
 
 router.get("/", function(req, res){
     "use strict";
+    try{
     return SignupModel.find({}, function(err, articles){
         if (!err) {
             res.statusCode = 400;
@@ -34,9 +35,17 @@ router.get("/", function(req, res){
             return res.send({error: 'Server error'});
         }
     })
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 router.post('/', function(req, res){
     "use strict";
+    try{
     var registered = Date.now();
     var email = req.headers.email;
     var password = req.headers.password;
@@ -104,6 +113,13 @@ router.post('/', function(req, res){
             }
         }
     });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 
 module.exports = router;

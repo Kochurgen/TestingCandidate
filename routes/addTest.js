@@ -7,6 +7,7 @@ var TestModel = require('./Connector').TestModel;
 /* GET users listing. */
 router.delete('/', function(req, res){
     "use strict";
+    try{
     var testName = req.headers.testname;
     console.log(testName);
     var token = {
@@ -16,10 +17,10 @@ router.delete('/', function(req, res){
         }
     };
     var result = lzString.compress(token);
-    var testID = uuid.v1(result);
+    var testIndex = uuid.v1(result);
     var testModel = new TestModel({
         "testName": testName,
-        "testIndex": testID
+        "testIndex": testIndex
     });
     testModel.save(function (err, users) {
         if (err) {
@@ -30,14 +31,14 @@ router.delete('/', function(req, res){
                 "version_sender": "1.0.0",
                 "version_actual": "1.0.0",
                 "data": {
-                    "accessToken": accessToken
+                    "accessToken": null
                 },
                 "date": Date.now(),
                 "code": 500,
                 "message": "OK",
                 "status": "success",
                 "input": {
-                    email: email
+                    testName: testName
                 },
                 "error": null
             });
@@ -49,7 +50,7 @@ router.delete('/', function(req, res){
                     "version_sender": "1.0.0",
                     "version_actual": "1.0.0",
                     "data": {
-                        users: users
+                        test: users
                     },
                     "date": Date.now(),
                     "code": 201,
@@ -57,12 +58,19 @@ router.delete('/', function(req, res){
                     "status": "success",
                     "input": {
                         "testName": testName,
-                        "testIndex": testID
+                        "testIndex": testIndex
                     },
                     "error": null
             });
         }
     });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
 });
 
 module.exports = router;

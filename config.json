@@ -1,4 +1,11 @@
 {
-  "hostURL": "http://localhost:3000",
-  "dbURL": "mongodb://localhost:27017/tes"
+  "http": {
+    "hostURL": "http://localhost",
+    "port": 3000
+  },
+  "mongo": {
+    "dbURL": "mongodb://localhost",
+    "port": 27017,
+    "dbName": "tes"
+  }
 }
