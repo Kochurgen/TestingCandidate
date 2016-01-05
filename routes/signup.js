@@ -16,8 +16,8 @@ try {
             return res.json({
                 "identity": "account",
                 "method": "POST",
-                "version_sender": "1.0.0",
-                "version_actual": "1.0.0",
+                "version_sender": config.version_sender,
+                "version_actual": config.version_actual,
                 "data": {
                     "accessToken": null
                 },
@@ -90,8 +90,8 @@ router.post('/', function(req, res) {
                         return res.json({
                             "identity": "account",
                             "method": "POST",
-                            "version_sender": "1.0.0",
-                            "version_actual": "1.0.0",
+                            "version_sender": config.version_sender,
+                            "version_actual": config.version_actual,
                             "data": {
                                 "accessToken": accessToken
                             },
@@ -113,8 +113,8 @@ router.post('/', function(req, res) {
                 return res.json({
                     "identity": "account",
                     "method": "POST",
-                    "version_sender": "1.0.0",
-                    "version_actual": "1.0.0",
+                    "version_sender": config.version_sender,
+                    "version_actual": config.version_actual,
                     "data": {
                         "accessToken": accessToken
                     },

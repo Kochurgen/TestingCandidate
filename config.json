@@ -4,8 +4,10 @@
     "port": 3000
   },
   "mongo": {
-    "dbURL": "mongodb://localhost",
+    "dbURl": "mongodb://localhost",
     "port": 27017,
     "dbName": "tes"
-  }
+  },
+  "version_sender": "1.0.0",
+  "version_actual": "1.0.0"
 }

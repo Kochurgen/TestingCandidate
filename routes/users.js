@@ -3,8 +3,8 @@ var router = express.Router();
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var users;
-var dbUrl = require('../config.json').mongo;
-var url = dbUrl.dbURL+":"+dbUrl.port+"/"+dbUrl.dbName;
+var config = require('../config.json');
+var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mogo.dbName;
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 try {
@@ -23,8 +23,8 @@ try {
         res.statusCode = 200;
         res.json({
             "method": "POST",
-            "version_sender": "1.0.0",
-            "version_actual": "1.0.0",
+            "version_sender": config.version_sender,
+            "version_actual": config.version_actual,
             "data": docs,
         "date": Date.now(),
             "code": 200,

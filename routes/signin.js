@@ -15,8 +15,8 @@ router.get("/", function(req, res){
             res.send({
                 "identity": "account",
                 "method": "POST",
-                "version_sender": "1.0.0",
-                "version_actual": "1.0.0",
+                "version_sender": config.version_sender,
+                "version_actual": config.version_actual,
                 "data": {
                     "accessToken": "sdfgvcw7icy5e485"
                 },
@@ -74,8 +74,8 @@ router.post('/', function(req, res){
                 res.statusCode = 200;
                 res.json({
                     "identity": "account",
-                    "version_sender": "1.0.0",
-                    "version_actual": "1.0.0",
+                    "version_sender": config.version_sender,
+                    "version_actual": config.version_actual,
                     "data": {
                         "accessToken": accessToken
                     },
@@ -94,8 +94,8 @@ router.post('/', function(req, res){
                 res.json(
                     {
                         "identity": "account",
-                        "version_sender": "1.0.0",
-                        "version_actual": "1.0.0",
+                        "version_sender": config.version_sender,
+                        "version_actual": config.version_actual,
                         "data": {
                             "accessToken": null
                         },

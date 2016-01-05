@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongodb = require('mongodb');
-var dbUrl = require('../config.json').mongo;
-var url = dbUrl.dbURL+":"+dbUrl.port+"/"+dbUrl.dbName;
+var config = require('../config.json');
+var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mogo.dbName;
 var MongoClient = mongodb.MongoClient;
 var users;
 
