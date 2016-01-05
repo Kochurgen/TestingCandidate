@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongodb = require('mongodb');
 var config = require('../config');
-var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mogo.dbName;
+var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mongo.dbName;
 var MongoClient = mongodb.MongoClient;
 var users;
 

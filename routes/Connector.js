@@ -1,7 +1,7 @@
 var mongoose    = require('mongoose');
 //var log         = require('./log')(module);
 var config = require("../config");
-var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mogo.dbName;
+var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mongo.dbName;
 mongoose.connect(url);
 var db = mongoose.connection;
 db.on('error', function (err) {

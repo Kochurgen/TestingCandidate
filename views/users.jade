@@ -9,9 +9,9 @@ block content
                     h1= "Menu"
                     ul.nav
                         li
-                            a(href="/account/getTestlist")#getTests="Tests"
+                            a(href="/account/getTestlist/all")#getTests="Tests"
                         li
-                            a(href="/users")#getUsers= "Users"
+                            a(href="/users/all")#getUsers= "Users"
                         li
                             a= "Results"
                         li
@@ -19,29 +19,17 @@ block content
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                     // USER LIST
                     h1.page-header= "Users List"
-                    form.navbar-form.navbar-right
-                        input(type="text", placeholder="Username").form-control
-                        input(type="email", placeholder="Email").form-control
-                        input(type="password", placeholder="password").form-control
-                        input(type="button", value="Add User").form-control.btn-primary
+                    form.navbar-form.navbar-right(action="/account/signup/admin" method="POST")
+                        input(type="text", placeholder="Username" name="fullName").form-control
+                        input(type="email", placeholder="Email" name="email").form-control
+                        input(type="password", placeholder="password" name="password").form-control
+                        input(type="submit", value="Add User").form-control.btn-primary
                     h2 Users List
-                    #userList.table-responsive
-                        table.table.table-striped
-                            thead
-                                th User Name
-                                th Email
-                                th Password
-                                th Token
-                            tbody
-                                -var index = 0
-                                each result, key in docs
-                                    tr(id=index++)
-                                        each value, key in result
-                                            th(id="#{key}-#{index}") #{value}
-                                        th
-                                            button(id="delete #{index}").btn.btn-primary= "Delete"
-                                        th
-                                            button(id="edit #{index}").btn.btn-primary= "Edit"
+                    each result, key in data
+                        form.navbar-form.navbar-left(action="/account/delTest" method="DELETE")
+                             each value, key in result
+                                  input(type="text" name="#{key}" value="#{value}").form-control
+                             input(type="submit" value="Delete").btn.btn-primary
         // /USER LIST
 
     // /WRAPPER

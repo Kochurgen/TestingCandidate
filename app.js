@@ -53,19 +53,11 @@ app.use('/account/question', question);
 
 app.use('/account/addQuestion', addQuestion);
 
-app.delete('/account/delTest', delTest);
+app.use('/account/delTest', delTest);
 
-app.post('/account/addTest', addTest);
+app.use('/account/addTest', addTest);
 
-app.delete('/account/delUsers', function(req, res) {
-    var email = req.headers.email;
-    console.log(email);
-    SignupModel.remove({__v:email}, function(err, users) {
-        if(err) res.json(err);
-        res.json(users);
-        console.log('Selected students was deleted');
-    });
-});
+app.use('/account/delUsers', delUser);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

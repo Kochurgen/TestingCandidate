@@ -3,11 +3,54 @@
 var express = require('express');
 var router = express.Router();
 var SignupModel = require('./Connector').SignupModel;
+var config = require('../config.json');
+var userlist = require('./index');
 
 /* GET users listing. */
+router.get('/', function(req, res){
+    try{
+        var email = req.headers.email||req.query.email;
+        SignupModel.remove({email:email}, function(err, users) {
+            if(!err){
+                res.statusCode = 200;
+                SignupModel.find({},function (err, docs) {
+
+                    res.redirect('/users/all');
+
+                });
+            } else {
+                res.statusCode = 500;
+                res.json({
+                    "identity": "account",
+                    "method": "POST",
+                    "version_sender": config.version_sender,
+                    "version_actual": config.version_actual,
+                    "data": {
+                        "accessToken": null
+                    },
+                    "date": Date.now(),
+                    "code": 500,
+                    "message": "OK",
+                    "status": "success",
+                    "input": {
+                        email: email
+                    },
+                    "error": null
+                });
+            }
+        });
+    } catch (err) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    }
+});
+
 router.delete('/', function(req, res){
     try{
-    var email = req.headers.email;
+    var email = req.headers.email||req.body.email;
     SignupModel.remove({email:email}, function(err, users) {
         if(!err){
         res.statusCode = 200;
@@ -17,7 +60,7 @@ router.delete('/', function(req, res){
             "version_sender": config.version_sender,
             "version_actual": config.version_actual,
             "data": {
-            "accessToken": accessToken
+            "accessToken": null
         },
         "date": Date.now(),
             "code": 200,
@@ -36,7 +79,7 @@ router.delete('/', function(req, res){
                 "version_sender": config.version_sender,
                 "version_actual": config.version_actual,
                 "data": {
-                    "accessToken": accessToken
+                    "accessToken": null
                 },
                 "date": Date.now(),
                 "code": 500,

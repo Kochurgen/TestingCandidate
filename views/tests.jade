@@ -1,6 +1,6 @@
 extends layout
 script.
-    var
+
 block content
     div.navbar.navbar-fixed-top
         div.container-fluid
@@ -10,9 +10,9 @@ block content
                     h1= "Menu"
                     ul.nav
                         li
-                            a(href="/account/getTestlist")#getTests="Tests"
+                            a(href="/account/getTestlist/all")#getTests="Tests"
                         li
-                            a(href="/users")#getUsers= "Users"
+                            a(href="/users/all")#getUsers= "Users"
                         li
                             a= "Results"
                         li
@@ -20,26 +20,15 @@ block content
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                     // USER LIST
                     h1.page-header= "Tests List"
-                    form.navbar-form.navbar-right
-                        input(type="text", placeholder="Add name new test").form-control
-                        input(type="button", value="Create Test", onclick=get).form-control.btn-primary
+                    form.navbar-form.navbar-right(action="/account/addTest/admin" method="POST")
+                        input(type="text", name="testName", placeholder="Add name new test").form-control
+                        input(type="submit", value="Create Test").form-control.btn-primary
                     h2 Test List
-                    #userList.table-responsive
-                        table.table.table-striped
-                            thead
-                                th Test Name
-                                th testIndex
-                                th
-                                th
-                            tbody
-                                each result, key in docs
-                                    tr
-                                        each value, key in result
-                                            th #{value}
-                                        th
-                                            button#delete.btn.btn-primary= "Delete"
-                                        th
-                                            button#edit.btn.btn-primary= "Edit"
+                        each result, key in data
+                            form.navbar-form.navbar-left(action="/account/delTest/admin" method="DELETE")
+                                each value, key in result
+                                    input(type="text" name="#{key}" value="#{value}").form-control
+                                input(type="submit" value="Delete").btn.btn-primary
         // /USER LIST
 
     // /WRAPPER
