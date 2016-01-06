@@ -17,7 +17,7 @@ router.get('/', function(req, res){
                 "version_sender": config.version_sender,
                 "version_actual": config.version_actual,
                 "data": {
-                    "accessToken": accessToken
+                    "accessToken": null
                 },
                 "date": Date.now(),
                 "code": 200,
@@ -36,7 +36,7 @@ router.get('/', function(req, res){
                 "version_sender": config.version_sender,
                 "version_actual": config.version_actual,
                 "data": {
-                    "accessToken": accessToken
+                    "accessToken": null
                 },
                 "date": Date.now(),
                 "code": 500,
@@ -60,8 +60,9 @@ router.get('/', function(req, res){
 
 router.get('/admin', function(req, res){
     try{
-        var testName = req.headers.testname||req.body.testName;
-        TestModel.remove({testname:testName}, function(err, users) {
+        var testName = req.headers.testname||req.query.testName;
+        console.log(req.query.testName);
+        TestModel.remove({testName:testName}, function(err, users) {
             if(!err) {
                 console.log(users);
                 return res.redirect('/account/getTestlist/all');

@@ -14,7 +14,6 @@ router.get('/', function(req, res){
             if(!err){
                 res.statusCode = 200;
                 SignupModel.find({},function (err, docs) {
-
                     res.redirect('/users/all');
 
                 });
