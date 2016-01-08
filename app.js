@@ -17,7 +17,8 @@ var addQuestion = require('./routes/addQuestion');
 var delTest = require('./routes/delTest');
 var addTest = require('./routes/addTest');
 var delUser = require('./routes/delUser');
-var pictures = require('./routes/pictures');
+//var pictures = require('./routes/pictures');
+var createQuestion = require('./routes/createQuestion');
 
 var SignupModel = require('./routes/Connector').SignupModel;
 var TestModel = require('./routes/Connector').TestModel;
@@ -61,8 +62,9 @@ app.use('/account/addTest', addTest);
 
 app.use('/account/delUsers', delUser);
 
-app.use('/account/pictures', pictures);
+//app.use('/account/pictures', pictures);
 
+app.use('/account/createQuestion', createQuestion);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -94,6 +96,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+function upload (file){
+  "use strict";
+  console.log('file')
+}
 
 module.exports = app;
 

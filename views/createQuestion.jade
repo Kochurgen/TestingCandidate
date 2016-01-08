@@ -1,0 +1,38 @@
+extends layout
+script.
+
+block content
+    div.cm-string
+        div.container-fluid
+            // Wrapper
+            div(#scrollbox3,#wrapper).row
+                div.col-sm-3.col-md-2.sidebar
+                    h1= "Menu"
+                    ul.nav
+                        li
+                            a(href="/account/getTestlist/all")#getTests="Tests"
+                        li
+                            a(href="/users/all")#getUsers= "Users"
+                        li
+                            a= "Results"
+                        li
+                            a(href="/account/createQuestion")= "Create Question"
+                        li
+                            a(href="/account/pictures")= "Pictures"
+                div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+                    select.form-control
+                        each result, key in data
+                            option #{result.testName}
+                        form(name="upload")
+                            input#address(type="file" name="myfile").form-control
+                            input(type="submit" value="Загрузить").form-control
+                        script(type='text/javascript').
+                             document.forms.upload.onsubmit = function() {
+                                var input = this.elements.myfile;
+                                var file = input.files[0];
+                                console.log('file');
+                                if (file) {
+                                    upload(file);
+                                }
+                                return false;
+                             }
