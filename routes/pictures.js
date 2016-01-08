@@ -11,7 +11,7 @@ router.get('/', function(req, res){
             if(!err) {
                 return res.json({
                     "identity": "account",
-                    "method": "POST",
+                    "method": "GET",
                     "version_sender": config.version_sender,
                     "version_actual": config.version_actual,
                     "data": {

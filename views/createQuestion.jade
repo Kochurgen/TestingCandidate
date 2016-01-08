@@ -27,7 +27,7 @@ block content
                             input#address(type="file" name="myfile").form-control
                             input(type="submit" value="Загрузить").form-control
                         script(type='text/javascript').
-                             document.forms.upload.onsubmit = function() {
+                                document.forms.upload.onsubmit = function() {
                                 var input = this.elements.myfile;
                                 var file = input.files[0];
                                 console.log('file');
@@ -35,4 +35,4 @@ block content
                                     upload(file);
                                 }
                                 return false;
-                             }
+                                };

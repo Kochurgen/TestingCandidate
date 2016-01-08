@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
                     console.log('docs', docs);
                     res.statusCode = 200;
                     res.json({
-                        "method": "POST",
+                        "method": "GET",
                         "version_sender": config.version_sender,
                         "version_actual": config.version_actual,
                         "data": docs,

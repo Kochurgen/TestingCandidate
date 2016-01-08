@@ -21,7 +21,7 @@ router.get('/', function(req, res){
                 res.statusCode = 500;
                 res.json({
                     "identity": "account",
-                    "method": "POST",
+                    "method": "GET",
                     "version_sender": config.version_sender,
                     "version_actual": config.version_actual,
                     "data": {
@@ -55,7 +55,7 @@ router.delete('/', function(req, res){
         res.statusCode = 200;
         res.json({
         "identity": "account",
-            "method": "POST",
+            "method": "DELETE",
             "version_sender": config.version_sender,
             "version_actual": config.version_actual,
             "data": {
@@ -74,7 +74,7 @@ router.delete('/', function(req, res){
             res.statusCode = 500;
             res.json({
                 "identity": "account",
-                "method": "POST",
+                "method": "DELETE",
                 "version_sender": config.version_sender,
                 "version_actual": config.version_actual,
                 "data": {
