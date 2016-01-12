@@ -14,25 +14,34 @@ block content
                         li
                             a(href="/users/all")#getUsers= "Users"
                         li
-                            a= "Results"
-                        li
                             a(href="/account/createQuestion")= "Create Question"
-                        li
-                            a(href="/account/pictures")= "Pictures"
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-                    select.form-control
-                        each result, key in data
-                            option #{result.testName}
-                        form(name="upload")
-                            input#address(type="file" name="myfile").form-control
-                            input(type="submit" value="Загрузить").form-control
-                        script(type='text/javascript').
-                                document.forms.upload.onsubmit = function() {
-                                var input = this.elements.myfile;
-                                var file = input.files[0];
-                                console.log('file');
-                                if (file) {
-                                    upload(file);
-                                }
-                                return false;
-                                };
+                    form.navbar-form(action="/account/createQuestion" method="POST")#questionForm
+                        p Select Test name
+                        select.form-control.form-inline(name="TestName")
+                            each result, key in data
+                                option #{result.testName}
+                        input(type="submit" value="Create question" style="float: right").form-control.btn-primary
+                        p Question text
+                        p
+                            input(type="hidden" name="picture")#address
+                        p
+                            textarea(rows="10" cols="45" name="question").form-control.blog-main
+                        p
+                            input(type="button" value="add Possible answer" id="addPossibleAnswer").btn.btn-primary
+                        p Possible answer
+                        p
+                            span.form-control(style="width:80%; border:0") Answer Text
+                            span False
+                            span True
+
+                    h1 File Uploads
+                    hr
+                    input(type = 'file', style = 'display: none', name = 'uploadFiles', id = 'uploadFiles', multiple)
+                    div(style = 'margin-bottom:15px')
+                        button.btn.btn-primary(id = 'addFilesButton') Add files
+                    div.progress
+                    div#progress.progress-bar(role = 'progressbar', style = 'width: 0%')
+                    table#files.table
+block otherScripts
+    script(src='/js/image.upload.js')

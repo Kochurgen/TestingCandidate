@@ -24,7 +24,8 @@ var Signin = new mongoose.Schema({
 });
 
 var Question = new mongoose.Schema({
-        "testIndex": {"type": "string"},
+        "image":{'type': 'string'},
+        "testName": {"type": "string"},
         "total": {"type": "string"},
         "current number":{"type": "string"},
         "codeName": {"type": "string"},
@@ -35,11 +36,19 @@ var Question = new mongoose.Schema({
         "score": {"type": "string"}
 });
 
+var Result = new mongoose.Schema({
+    "email": {"type": "string"},
+    "testName":{"type": "string"},
+    "questionName":{"type":"string"},
+    "answer":{"type":"boolean"}
+});
+
 var Test = new mongoose.Schema({
     "testIndex":{"type": "string"},
     "testName":{"type":"string"}
 });
 
+var ResultModel = mongoose.model('result',Result);
 var QuestionModel=mongoose.model('Question', Question);
 var SignupModel = mongoose.model('Signup', Signup);
 var SigninModel = mongoose.model('Signin', Signin);
@@ -48,3 +57,4 @@ module.exports.SignupModel = SignupModel;
 module.exports.SigninModel = SigninModel;
 module.exports.QuestionModel = QuestionModel;
 module.exports.TestModel = TestModel;
+module .exports.ResultModel = ResultModel;
