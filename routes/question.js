@@ -8,13 +8,14 @@ var questionModel = require('./Connector').QuestionModel;
 router.get('/', function(req, res){
     "use strict";
     try{
-    var testIndex = req.headers.testIndex;
+    var testName = req.headers.testIndex;
     var curentNumber = req.headers.curentNumber;
     var total;
     questionModel.find({}, function(err, result){
+
         total =result.length;
     });
-    questionModel.find({testIndex:testIndex, curentNumber:curentNumber}, function(err, result, index){
+    questionModel.find({testIndex:testName, curentNumber:curentNumber}, function(err, result, index){
         console.log(result, index);
         if(!err){
             res.statusCode = 200;

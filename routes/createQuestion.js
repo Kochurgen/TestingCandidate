@@ -1,10 +1,13 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+    router = express.Router(),
+    fs = require("fs"),
+    multiparty = require('multiparty');
 var mongodb = require('mongodb');
 var config = require('../config.json');
 var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mongo.dbName;
 var MongoClient = mongodb.MongoClient;
 var users;
+var QuestionModel = require('./Connector').QuestionModel;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -20,7 +23,7 @@ router.get('/', function(req, res, next) {
                     users = docs;
                     //res.send(docs);
                     res.statusCode =200;
-                    res.render('createQuestion.jade',{ data: docs});
+                    res.render('createQuestion.jade',{ title: 'Node.js File Uploads', data: docs});
                 });
             }
         });
@@ -33,4 +36,49 @@ router.get('/', function(req, res, next) {
     }
 });
 
+router.post('/', function(req, res, next) {
+
+    var questionModel = new QuestionModel({
+        "image": req.body.picture,
+        "testName": req.body.TestName,
+        "total": 0,
+        "current number":0,
+        "codeName": 0,
+        "question": req.body.question,
+        "answers": req.body.answer,
+        "answerMultiple": true,
+        "answerCorrect": req.body.correctAnswer,
+        "score": 5
+    });
+    questionModel.save(function (err, users) {
+        if (err) {
+            console.log(err);
+            res.statusCode = 500;
+            res.json({
+                "identity": "account",
+                "method": "POST",
+                "version_sender": config.version_sender,
+                "version_actual": config.version_actual,
+                "data": {
+                    "accessToken": null
+                },
+                "date": Date.now(),
+                "code": 500,
+                "message": "OK",
+                "status": "success",
+                "input": {
+                    testName: req.body.TestName
+                },
+                "error": null
+            });
+        } else {
+            res.statusCode = 201;
+            res.redirect('/account/createQuestion');
+        }
+    });
+});
+
 module.exports = router;
+//var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+//
+//console.log(ip);

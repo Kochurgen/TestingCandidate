@@ -4,7 +4,6 @@ var express = require('express');
 var router = express.Router();
 var SignupModel = require('./Connector').SignupModel;
 var config = require('../config.json');
-var userlist = require('./index');
 
 /* GET users listing. */
 router.get('/', function(req, res){

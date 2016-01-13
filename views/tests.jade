@@ -14,29 +14,34 @@ block content
                         li
                             a(href="/users/all")#getUsers= "Users"
                         li
-                            a= "Results"
-                        li
                             a(href="/account/createQuestion")= "Create Question"
-                        li
-                            a(href="/account/pictures")= "Pictures"
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-                    // USER LIST
                     h1.page-header= "Tests List"
                     form.navbar-form(action="/account/addTest/admin" method="POST")
                         input(type="text", name="testName", placeholder="Add name new test").form-control
                         input(type="submit", value="Create Test").form-control.btn-primary
                     h2 Test List
-                        //div.col-sm-4.col-sm-offset-3.main
+
                     table.table
-                        tbody
+                        thead
+                            th test Name
+                            th test Index
+                        tbody.table-bordered
                             each result, key in data
                                 tr
-                                    th
-                                        form.navbar-form(action="/account/delTest/admin" method="DELETE")
-                                            each value, key in result
-                                                input(type="text" name="#{key}" value="#{value}").form-control
-                                            input(type="submit" value="Delete").btn.btn-primary
-        // /USER LIST
+                                        each value, key in result
+                                            th #{value}
+                                        th
+                                            form.navbar-form(action="/account/delTest/admin" method="DELETE" name="test")
+                                                each value, key in result
+                                                    input(type="hidden" name="#{key}" value="#{value}").form-control
+                                                input(type="submit" value="Delete").btn.btn-primary
+                                                //a(href="/account/testEditor")
+                                        th
+                                            form.navbar-form(action="/account/testEditor" method="POST" name="edit")
+                                                input(type="submit" value="Questions").edit.btn.btn-primary
+                                                input(type="hidden" name="testName" )
 
-    // /WRAPPER
+block otherScripts
+    script(src='/js/testEditor.js')
 

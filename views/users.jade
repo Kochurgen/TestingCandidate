@@ -13,11 +13,7 @@ block content
                         li
                             a(href="/users/all")#getUsers= "Users"
                         li
-                            a= "Results"
-                        li
                             a(href="/account/createQuestion")= "Create Question"
-                        li
-                            a(href="/account/pictures")= "Pictures"
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                     // USER LIST
                     h1.page-header= "Users List"
@@ -28,13 +24,25 @@ block content
                         input(type="submit", value="Add User").form-control.btn-primary
                     h2 Users List
                     table.table
+                        thead
+                            th Name
+                            th Email
+                            th password
+                            th accessToken
                         tbody
                             each result, key in data
                                 tr
+                                    each value, key in result
+                                        th #{value}
                                     th
-                                        form.navbar-form.navbar-left(action="/account/delUsers" method="DELETE")
+                                        form.navbar-form.navbar-left(action="/account/delUsers" method="DELETE" name="users")
                                             each value, key in result
-                                                input(type="text" name="#{key}" value="#{value}").form-control
+                                                input(type="hidden" name="#{key}" value="#{value}").form-control
                                             input(type="submit" value="Delete").btn.btn-primary
-        // /USER LIST
-    // /WRAPPER
+                                    th
+                                        form.navbar-form.navbar-left(action="/account/results" method="get" name="wathResalt")
+                                            input(type="hidden" name="email" value="#{value}").form-control
+                                            input(type="submit" value="Results").btn.btn-primary
+
+block otherScripts
+    script(src='/js/testEditor.js')

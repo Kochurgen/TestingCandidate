@@ -6,3 +6,13 @@ body {
 a {
   color: #00B7FF;
 }
+img.img-fullsize {
+  width: 100px;
+}
+
+.input-spec{
+ width: 80% !important;
+}
+input{
+    margin-right: 5px !important;
+}

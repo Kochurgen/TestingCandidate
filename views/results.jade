@@ -1,0 +1,33 @@
+extends layout
+script.
+
+block content
+    div.cm-string
+        div.container-fluid
+            // Wrapper
+            div(#scrollbox3,#wrapper).row
+                div.col-sm-3.col-md-2.sidebar
+                    h1= "Menu"
+                    ul.nav
+                        li
+                            a(href="/account/getTestlist/all")#getTests="Tests"
+                        li
+                            a(href="/users/all")#getUsers= "Users"
+                        li
+                            a(href="/account/createQuestion")= "Create Question"
+                div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+                    // USER LIST
+                    h2 Results List
+                        //div.col-sm-4.col-sm-offset-3.main
+                    table.table
+                        thead.table-bordered
+                            th  id
+                            th  email
+                            th  testName
+                            th  questionName
+                            th  answer
+                        tbody
+                            each result, key in data
+                                tr.table-bordered
+                                    each value, key in result
+                                            th  #{value}"

@@ -1,21 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to our test
-
-  // Wrapper
-  #wrapper
-
-    // USER LIST
-    h2 User List
-    #userList
-      table
-        thead
-          th UserName
-          th Email
-          th Delete?
-        tbody
-    // /USER LIST
-
-  // /WRAPPER
+  h1 File Uploads
+  hr
+  input(type='file',style='display: none', name='uploadFiles',id='uploadFiles',multiple)
+  div(style='margin-bottom:15px')
+    button.btn.btn-primary(id='addFilesButton') Add files
+    button.btn.btn-primary(id='uploadAllFilesButton', style='margin-left:5px') Upload All
+  div.progress
+    div#progress.progress-bar(role='progressbar', style='width: 0%')
+  table#files.table
+block otherScripts
+  script(src='/js/image.upload.js')
