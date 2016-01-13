@@ -37,19 +37,39 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-
-    var questionModel = new QuestionModel({
-        "image": req.body.picture,
-        "testName": req.body.TestName,
-        "total": 0,
-        "current number":0,
-        "codeName": 0,
-        "question": req.body.question,
-        "answers": req.body.answer,
-        "answerMultiple": true,
-        "answerCorrect": req.body.correctAnswer,
-        "score": 5
-    });
+    ///** @version 1 */
+    //var save = {
+    //    "image": req.body.picture,
+    //    "testName": req.body.TestName,
+    //    "total": 0,
+    //    "current number":0,
+    //    "codeName": 0,
+    //    "question": req.body.question,
+    //    "answers": req.body.answer,
+    //    "answerMultiple": true,
+    //    "answerCorrect": req.body.correctAnswer,
+    //    "score": 0
+    //};
+    var post = req.body;
+    post.answerCorrect = [];
+    Object
+        .keys(post)
+        .filter(value => value.startsWith("correctAnswer_"))
+        .forEach(function (value) {
+            this.push(value.substring(14) | 0);
+            delete post[value];
+        }, post.answerCorrect);
+    /** @version 2 */
+    var save = {
+        "answerCorrect":  post["correctAnswer"],
+        "answerMultiple": (post["answerMultiple"] === "on"),
+        "answers":        post["answer"],
+        "image":          post["image"] || undefined,
+        "points":         1,
+        "question":       post["question"],
+        "testName":       post["TestName"],
+    };
+    var questionModel = new QuestionModel(save);
     questionModel.save(function (err, users) {
         if (err) {
             console.log(err);

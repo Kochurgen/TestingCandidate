@@ -23,17 +23,29 @@ var Signin = new mongoose.Schema({
     "password": {"type": "string"}
 });
 
+///** @version 1 */
+//var Question = new mongoose.Schema({
+//    "image": {"type": "string"},
+//    "testName": {"type": "string"},
+//    "total": {"type": "string"},
+//    "current number": {"type": "string"},
+//    "codeName": {"type": "string"},
+//    "question": {"type": "string"},
+//    "answers": {"type": "array"},
+//    "answerMultiple": {"type": "boolean"},
+//    "answerCorrect": {"type": "array"},
+//    "score": {"type": "string"}
+//});
+
+/** @version 2 */
 var Question = new mongoose.Schema({
-        "image":{'type': 'string'},
-        "testName": {"type": "string"},
-        "total": {"type": "string"},
-        "current number":{"type": "string"},
-        "codeName": {"type": "string"},
-        "question": {"type": "string"},
-        "answers": {"type": "array"},
-        "answerMultiple": {"type": "boolean"},
-        "answerCorrect": {"type": "array"},
-        "score": {"type": "string"}
+    "answerCorrect":  {"type": "array"},
+    "answerMultiple": {"type": "boolean"},
+    "answers":        {"type": "array"},
+    "image":          {"type": "string"},
+    "points":         {"type": "string"},
+    "question":       {"type": "string"},
+    "testName":       {"type": "string"},
 });
 
 var Result = new mongoose.Schema({

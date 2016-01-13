@@ -34,27 +34,37 @@ function JSUploader() {
         });
     };
 
-    this.addAnswer = function(){
+    this.addAnswer = function () {
         var p = $('<p>');
+        //
         var input = $('<input>');
         input.attr('type', 'text');
         input.attr('class', 'form-control input-spec .input-group');
-        input.attr('style','margin-right:10px');
+        input.attr('style', 'margin-right:10px');
         input.attr('name', 'answer');
-        var checkbox = $('<input>');
-        checkbox.attr('type', 'checkbox');
-        checkbox.attr('name', 'correctAnswer');
-        checkbox.attr('value', false);
-        checkbox.attr('style','margin-right:10px');
-        var checkbox2 = $('<input>');
-        checkbox2.attr('type', 'checkbox');
-        checkbox2.attr('name', 'correctAnswer');
-        checkbox2.attr('value', true);
-
+        //
+        var checkbox = $("<input>", {
+            "data-answer": true,
+            "name": "correctAnswer_" + ($("[data-answer]").length),
+            "style": "transform: scale(2); margin-left: 2em;",
+            "type": "checkbox",
+        });
+        //
+        //var checkbox = $('<input>');
+        //checkbox.attr('name', 'correctAnswer');
+        //checkbox.attr('style', 'margin-right:10px');
+        //checkbox.attr('type', 'checkbox');
+        //checkbox.attr('value', false);
+        //
+        //var checkbox2 = $('<input>');
+        //checkbox2.attr('name', 'correctAnswer');
+        //checkbox2.attr('type', 'checkbox');
+        //checkbox2.attr('value', true);
+        //
         p.append(input);
         p.append(checkbox);
-        p.append(checkbox2);
-        $('#questionForm').append(p)
+        //p.append(checkbox2);
+        $('#questionForm').append(p);
     };
 
     this.updateFileProgress = function(index, done, total, view) {
