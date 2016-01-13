@@ -33,6 +33,7 @@ nconf.argv()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.set('view options', { locals: { scripts: ['jquery.js'] } });
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -96,11 +97,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-function upload (file){
-  "use strict";
-  console.log('file')
-}
 
 module.exports = app;
 

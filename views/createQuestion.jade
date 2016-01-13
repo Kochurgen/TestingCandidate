@@ -20,19 +20,41 @@ block content
                         li
                             a(href="/account/pictures")= "Pictures"
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
-                    select.form-control
-                        each result, key in data
-                            option #{result.testName}
-                        form(name="upload")
+                    form(name="upload")
+                        select.form-control
+                            each result, key in data
+                                option #{result.testName}
+
                             input#address(type="file" name="myfile").form-control
                             input(type="submit" value="Загрузить").form-control
                         script(type='text/javascript').
                                 document.forms.upload.onsubmit = function() {
                                 var input = this.elements.myfile;
                                 var file = input.files[0];
-                                console.log('file');
                                 if (file) {
                                     upload(file);
                                 }
                                 return false;
                                 };
+                                function upload(file) {
+                                    "use strict";
+                                    var xhr = new XMLHttpRequest();
+
+                                    // обработчик для закачки
+                                    xhr.upload.onprogress = function (event) {
+                                        log(event.loaded + ' / ' + event.total);
+                                    }
+
+                                    // обработчики успеха и ошибки
+                                    // если status == 200, то это успех, иначе ошибка
+                                    xhr.onload = xhr.onerror = function () {
+                                        if (this.status == 200) {
+                                            log("success");
+                                        } else {
+                                            log("error " + this.status);
+                                        }
+                                    };
+
+                                    xhr.open("POST", "upload", true);
+                                    xhr.send(file);
+                                }
