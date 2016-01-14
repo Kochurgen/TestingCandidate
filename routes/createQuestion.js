@@ -8,32 +8,45 @@ var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mongo.dbName;
 var MongoClient = mongodb.MongoClient;
 var users;
 var QuestionModel = require('./Connector').QuestionModel;
+var TestModel = require('./Connector').TestModel;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    try{
-        MongoClient.connect(url, function(err, db){
-            if(err){
-                console.log('Unable to connect to the mongoDB server. Error:', err);
-            } else {
-                // Get the documents collection
-                var collection = db.collection('tests');
-                // Get all documents
-                collection.find({},{testName: 1, testIndex: 1, _id: 0}).toArray(function(err, docs) {
-                    users = docs;
-                    //res.send(docs);
-                    res.statusCode =200;
-                    res.render('createQuestion.jade',{ title: 'Node.js File Uploads', data: docs});
-                });
-            }
-        });
-    } catch (err) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    }
+    TestModel.find({}, function (error, data) {
+        if (error) {
+            res.status(err.status || 500);
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+            return;
+        }
+        res.statusCode = 200;
+        res.render('createQuestion.jade', {title: 'Node.js File Uploads', data});
+    });
+    //try{
+    //    MongoClient.connect(url, function(err, db){
+    //        if(err){
+    //            console.log('Unable to connect to the mongoDB server. Error:', err);
+    //        } else {
+    //            // Get the documents collection
+    //            var collection = db.collection('tests');
+    //            // Get all documents
+    //            collection.find({},{testName: 1, testIndex: 1, _id: 0}).toArray(function(err, docs) {
+    //                users = docs;
+    //                //res.send(docs);
+    //                res.statusCode =200;
+    //                res.render('createQuestion.jade',{ title: 'Node.js File Uploads', data: docs});
+    //            });
+    //        }
+    //    });
+    //} catch (err) {
+    //    res.status(err.status || 500);
+    //    res.render('error', {
+    //        message: err.message,
+    //        error: err
+    //    });
+    //}
 });
 
 router.post('/', function(req, res, next) {
