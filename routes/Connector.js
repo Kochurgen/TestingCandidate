@@ -4,13 +4,14 @@ mongoose.Promise = require('bluebird');
 var config = require("../config");
 var url = '';
 var db = null;
-if (!config.mongolab) {
-	url = config.mongo.dbURl + ":" + config.mongo.port + "/" + config.mongo.dbName;
-	mongoose.connect(url);
-	db = mongoose.connection;
-	db.on('error', new Function);
-	db.once('open', new Function);
+if (false) {
+	//url = config.mongo.dbURl + ":" + config.mongo.port + "/" + config.mongo.dbName;
+	//mongoose.connect(url);
+	//db = mongoose.connection;
+	//db.on('error', new Function);
+	//db.once('open', new Function);
 } else {
+	console.info(" < REMOTE > ");
 	mongoose.connect(config.mongolab.url, config.mongolab.options);
 	db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
