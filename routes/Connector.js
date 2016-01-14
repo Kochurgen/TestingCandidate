@@ -1,42 +1,21 @@
 var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 //var log         = require('./log')(module);
 var config = require("../config");
 var url = '';
 var db = null;
-if (false) {
+if (!config.mongolab) {
 	url = config.mongo.dbURl + ":" + config.mongo.port + "/" + config.mongo.dbName;
 	mongoose.connect(url);
 	db = mongoose.connection;
-	db.on('error', function (err) {
-
-	});
-	db.once('open', function callback() {
-
-	});
+	db.on('error', new Function);
+	db.once('open', new Function);
 } else {
-	var options = {
-		server: {
-			socketOptions: {
-				keepAlive: 1,
-				connectTimeoutMS: 5000
-			}
-		},
-		replset: {
-			socketOptions: {
-				keepAlive: 1,
-				connectTimeoutMS: 5000
-			}
-		},
-		user: 'anon',
-		pass: 'anon'
-	};
-	url = 'mongodb://ds037015.mongolab.com:37015/tes';
-	mongoose.connect(url, options);
+	mongoose.connect(config.mongolab.url, config.mongolab.options);
 	db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', new Function);
 }
-
 
 var Signup = new mongoose.Schema({
 	"fullName": {"type": "string"},
