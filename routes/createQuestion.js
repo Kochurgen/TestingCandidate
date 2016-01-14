@@ -30,23 +30,27 @@ router.get('/', function (req, res) {
 
 router.post('/', function(req, res, next) {
     var post = req.body;
-    post.answerCorrect = [];
-    Object
-        .keys(post)
-        .filter(value => value.startsWith("correctAnswer_"))
-        .forEach(function (value) {
-            this.push(value.substring(14) | 0);
-            delete post[value];
-        }, post.answerCorrect);
-    var save = {
-        "answerCorrect":  post["correctAnswer"],
-        "answerMultiple": (post["answerMultiple"] === "on"),
-        "answers":        post["answer"],
-        "image":          post["image"] || undefined,
-        "points":         1,
-        "question":       post["question"],
-        "testName":       post["TestName"],
-    };
+    if (post.json) {
+        save = JSON.parse(post.json);
+    } else {
+        post.answerCorrect = [];
+        Object
+            .keys(post)
+            .filter(value => value.startsWith("correctAnswer_"))
+            .forEach(function (value) {
+                this.push(value.substring(14) | 0);
+                delete post[value];
+            }, post.answerCorrect);
+        var save = {
+            "answerCorrect":  post["correctAnswer"],
+            "answerMultiple": (post["answerMultiple"] === "on"),
+            "answers":        post["answer"],
+            "image":          post["image"] || undefined,
+            "points":         1,
+            "question":       post["question"],
+            "testName":       post["TestName"],
+        };
+    }
     var questionModel = new QuestionModel(save);
     questionModel.save(function (err, users) {
         if (err) {
