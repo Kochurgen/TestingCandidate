@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
     var db = mongoose.connection;
 
     db.on('error', console.error);
-    mongoose.connect('mongodb://localhost:27017/tests3');
+    mongoose.connect('mongodb://anon:anon@ds037015.mongolab.com:37015/tes');
     db.once('open', function() {
         var movieSchema = new mongoose.Schema({
             "title": "result",

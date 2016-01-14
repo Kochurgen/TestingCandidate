@@ -3,11 +3,18 @@
     "hostURL": "http://localhost",
     "port": 3000
   },
-  "mongo": {
+  "mongo2": {
     "dbURl": "mongodb://localhost",
     "port": 27017,
     "dbName": "tes"
   },
+
+  "mongo": {
+    "dbURl": "mongodb://ds037015.mongolab.com",
+    "port": 37015,
+    "dbName": "tes"
+  },
+
   "version_sender": "1.0.0",
   "version_actual": "1.0.0"
 }
