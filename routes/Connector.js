@@ -124,6 +124,34 @@ NormalModel.toObject = function (theModel, models) {
 	return NormalModel.modelToApi(models, NormalModel.modelSchemaAttributes(theModel));
 };
 //----------------------------------------------------------------------------------------------------------------------
+var Rest = {};
+
+/**
+ * @param {Object=} answer
+ * @returns {Object}
+ */
+Rest.answer = function (answer) {
+	var basic = {
+		"identity": "account",
+		"method": "GET",
+		"version_sender": config.version_sender,
+		"version_actual": config.version_actual,
+		"data": {
+			"accessToken": null
+		},
+		"date": Date.now(),
+		"code": 200,
+		"message": "OK",
+		"status": "success",
+		"input": {}
+	};
+	if (answer && typeof answer === "object") {
+		return Object.assign(basic, answer);
+	} else {
+		return basic;
+	}
+};
+//----------------------------------------------------------------------------------------------------------------------
 var ResultModel = mongoose.model('result', Result);
 var QuestionModel = mongoose.model('Question', Question);
 var SignupModel = mongoose.model('Signup', Signup);
@@ -135,3 +163,4 @@ module.exports.QuestionModel = QuestionModel;
 module.exports.TestModel = TestModel;
 module.exports.ResultModel = ResultModel;
 module.exports.NormalModel = NormalModel;
+module.exports.Rest = Rest;
