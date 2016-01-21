@@ -60,11 +60,9 @@ router.get('/', function(req, res){
 
 router.get('/admin', function(req, res){
     try{
-        var testName = req.headers.testname||req.query.testName;
-        console.log(req.query.testName);
-        TestModel.remove({testName:testName}, function(err, users) {
+        var testIndex = req.headers.testname||req.query.testIndex;
+        TestModel.remove({testIndex:testIndex}, function(err, users) {
             if(!err) {
-                console.log(users);
                 return res.redirect('/account/getTestlist/all');
             } else {
                 res.statusCode = 500;
@@ -81,7 +79,7 @@ router.get('/admin', function(req, res){
                     "message": "OK",
                     "status": "success",
                     "input": {
-                        testName: testName
+                        testName: testIndex
                     },
                     "error": null
                 });

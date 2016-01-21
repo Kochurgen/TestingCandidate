@@ -2,7 +2,6 @@ function JSEdit() {
     this.allFiles = [];
     var baseClass = this;
     baseClass.editor = function(name){
-        console.log(name);
         $.ajax({
             url: '/account/testEditor',
             method:"POST",
@@ -22,8 +21,14 @@ $(document).ready(function()
     var name = document.edit;
     var startName = document.test;
     if(name) {
-        for (var i = 0; i < name.length; i++) {
-            name[i].testName.value = startName[i].testName.value;
+        if (document.test.toString() == "[object HTMLFormElement]") {
+            for (var i = 0; i < name.length; i++) {
+                name.testName.value = startName.testName.value;
+            }
+        } else {
+            for (var i = 0; i < name.length; i++) {
+                name[i].testName.value = startName[i].testName.value;
+            }
         }
     }
     $(".edit").click(function(event){

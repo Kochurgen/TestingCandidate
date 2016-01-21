@@ -35,12 +35,10 @@ router.get('/', function(req, res){
 router.post('/', function(req, res){
     "use strict";
     try{
-        console.log(req);
         var email = req.headers.email||req.body.email;
         var testName =req.headers.testName||req.body.testName;
         var questionName = req.headers.questionName||req.body.questionName;
         var answer =req.headers.answer||req.body.answer;
-        console.log(testName);
 
         var resultModel = new ResultModel({
             "email": email,
@@ -48,7 +46,6 @@ router.post('/', function(req, res){
             "questionName":questionName,
             "answer":answer
         });
-        console.log(testIndex);
         resultModel.save(function (err, users) {
             if (err) {
                 res.statusCode = 500;

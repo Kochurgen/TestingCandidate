@@ -16,7 +16,6 @@ router.get('/', function (req, res) {
 			total = result.length;
 		});
 		questionModel.find({testName: testName, curentNumber: curentNumber}, function (err, result, index) {
-			console.log(result, index);
 			if (!err) {
 				res.statusCode = 200;
 				return res.json({

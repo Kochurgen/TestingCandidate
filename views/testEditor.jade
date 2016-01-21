@@ -21,14 +21,6 @@ block content
                         //div.col-sm-4.col-sm-offset-3.main
                     table.table
                         thead.table-bordered
-                            th  id
-                            th  image
-                            th  testName
-                            th  question
-                            th  answers
-                            th  answerMultiple
-                            th  answerCorrect
-                            th  points
                         tbody
                             each result, key in data
                                 tr.table-bordered
@@ -39,7 +31,11 @@ block content
                                         else
                                             th  #{value}
                                     th
-                                        input(type="submit" value="Delete").btn.btn-primary
+                                        form(action="/account/delQuestion" method="GET")
+                                            each value, key in result
+                                                input(type="hidden" name="#{key}" value="#{value}")
+                                            input(type="hidden", name="saveOptions" value="admin")
+                                            input(type="submit" value="Delete").btn.btn-primary
         // /USER LIST
 
     // /WRAPPER

@@ -4,12 +4,12 @@ mongoose.Promise = require('bluebird');
 var config = require("../config");
 var url = '';
 var db = null;
-if (false) {
-	//url = config.mongo.dbURl + ":" + config.mongo.port + "/" + config.mongo.dbName;
-	//mongoose.connect(url);
-	//db = mongoose.connection;
-	//db.on('error', new Function);
-	//db.once('open', new Function);
+if (true) {
+	url = config.mongo.dbURl;
+	mongoose.connect(url);
+	db = mongoose.connection;
+	db.on('error', new Function);
+	db.once('open', new Function);
 } else {
 	console.info(" < REMOTE > ");
 	mongoose.connect(config.mongolab.url, config.mongolab.options);
@@ -52,7 +52,7 @@ var Question = new mongoose.Schema({
 	"image": {"type": "string"},
 	"points": {"type": "string"},
 	"question": {"type": "string"},
-	"testName": {"type": "string"},
+	"testName": {"type": "string"}
 });
 
 var Result = new mongoose.Schema({
@@ -63,8 +63,8 @@ var Result = new mongoose.Schema({
 });
 
 var Test = new mongoose.Schema({
-	"testIndex": {"type": "string"},
-	"testName": {"type": "string"}
+	"testName": {"type": "string"},
+	"testIndex": {"type": "string"}
 });
 
 //----------------------------------------------------------------------------------------------------------------------

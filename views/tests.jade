@@ -17,8 +17,9 @@ block content
                             a(href="/account/createQuestion")= "Create Question"
                 div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                     h1.page-header= "Tests List"
-                    form.navbar-form(action="/account/addTest/admin" method="POST")
+                    form.navbar-form(action="/account/addTest" method="POST")
                         input(type="text", name="testName", placeholder="Add name new test").form-control
+                        input(type="hidden", name="saveOptions" value="admin")
                         input(type="submit", value="Create Test").form-control.btn-primary
                     h2 Test List
 
@@ -30,7 +31,10 @@ block content
                             each result, key in data
                                 tr
                                         each value, key in result
-                                            th #{value}
+                                            if key =='testIndex'
+                                                th #{value}
+                                            else if key =='testName'
+                                                th #{value}
                                         th
                                             form.navbar-form(action="/account/delTest/admin" method="DELETE" name="test")
                                                 each value, key in result

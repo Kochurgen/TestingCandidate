@@ -55,7 +55,6 @@ router.get('/', function(req, res, next) {
                             return console.error(err);
                         }
                         res.send(users);
-                        console.log(users);
                     });
                 }
             }

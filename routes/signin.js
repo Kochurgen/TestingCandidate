@@ -53,10 +53,8 @@ router.post('/', function(req, res){
         if (err) {
             return console.error(err);
         } else {
-            console.log('users',users);
             if(users.length > 0) {
                 var accessToken;
-                console.log('users',users[0].get('accesToken'));
                 if (users[0].get('accesToken') == 0){
                     var token = {
                         "email": email,

@@ -9,7 +9,6 @@ var users;
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     try {
-        console.log(res);
         var accessToken = req._verefyToken;
         MongoClient.connect(url, function (err, db) {
             if (err) {
@@ -20,7 +19,6 @@ router.get('/', function(req, res, next) {
                 // Get all documents
                 collection.find({accessToken: accessToken}).toArray(function (err, docs) {
                     users = docs;
-                    console.log(docs);
                 });
             }
         });

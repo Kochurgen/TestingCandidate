@@ -4,9 +4,6 @@ var express = require('express'),
     multiparty = require('multiparty');
 var mongodb = require('mongodb');
 var config = require('../config.json');
-var url = config.mongo.dbURl+":"+config.mongo.port+"/"+config.mongo.dbName;
-var MongoClient = mongodb.MongoClient;
-var users;
 var QuestionModel = require('./Connector').QuestionModel;
 var TestModel = require('./Connector').TestModel;
 
@@ -48,13 +45,12 @@ router.post('/', function(req, res, next) {
             "image":          post["image"] || undefined,
             "points":         1,
             "question":       post["question"],
-            "testName":       post["TestName"],
+            "testName":       post["TestName"]
         };
     }
     var questionModel = new QuestionModel(save);
     questionModel.save(function (err, users) {
         if (err) {
-            console.log(err);
             res.statusCode = 500;
             res.json({
                 "identity": "account",

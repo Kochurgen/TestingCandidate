@@ -17,6 +17,7 @@ var addTest = require('./routes/addTest');
 var delUser = require('./routes/delUser');
 var testEditor = require('./routes/testEditor');
 var results = require('./routes/results');
+var delQuestion = require('./routes/delQuestion');
 var createQuestion = require('./routes/createQuestion');
 
 var app = express();
@@ -56,6 +57,8 @@ app.use('/account/createQuestion', createQuestion);
 app.use('/account/testEditor', testEditor);
 
 app.use('/account/results', results);
+
+app.use('/account/delQuestion', delQuestion);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,7 +4,7 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var users;
 var config = require('../config.json');
-var url = config.mongo.dbURl + ":" + config.mongo.port + "/" + config.mongo.dbName;
+var url = config.mongo.dbURl;
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     try {
@@ -25,7 +25,6 @@ router.get('/', function (req, res, next) {
                     //{},{fullName: 1, email: 1, password: 1, accesToken: 1, _id: 0}
                     users = docs;
                     //res.send(docs);
-                    console.log('docs', docs);
                     res.statusCode = 200;
                     res.json({
                         "method": "GET",
@@ -70,7 +69,6 @@ router.get('/all', function (req, res, next) {
                     //{},{fullName: 1, email: 1, password: 1, accesToken: 1, _id: 0}
                     users = docs;
                     //res.send(docs);
-                    console.log('docs', docs);
                     res.statusCode = 200;
                     res.render('users.jade', {title: 'Express', data: docs});
                 });

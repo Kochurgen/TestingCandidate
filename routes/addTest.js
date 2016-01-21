@@ -7,12 +7,13 @@ var uuid = require('node-uuid');
 var TestModel = require('./Connector').TestModel;
 var config = require('../config.json');
 
-/* GET users listing. */
+/* POST users listing. */
 router.post('/', function(req, res){
     "use strict";
     try{
-    var testName = req.headers.testname||req.body.testname;
-    console.log(testName);
+    var saveOptions = "";
+    var testName = req.headers.testname||req.body.testName;
+    var saveOptions = req.headers.saveOptions||req.body.saveOptions;
     var token = {
         "testName": testName,
         "security": {
@@ -21,153 +22,60 @@ router.post('/', function(req, res){
     };
     var result = lzString.compress(token);
     var testIndex = uuid.v1(result);
-    return  TestModel.find({testname:testName},function(err, result){
-        var findeResult = [];
-        findeResult = result;
-        if (findeResult.length == 0) {
-            var testModel = new TestModel({
-                "testName": testName,
-                "testIndex": testIndex
-            });
-            testModel.save(function (err, users) {
-                if (err) {
-                    res.statusCode = 500;
-                    res.json({
-                        "identity": "account",
-                        "method": "POST",
-                        "version_sender": config.version_sender,
-                        "version_actual": config.version_actual,
-                        "data": {
-                            "accessToken": null
-                        },
-                        "date": Date.now(),
-                        "code": 500,
-                        "message": "OK",
-                        "status": "success",
-                        "input": {
-                            testName: testName
-                        },
-                        "error": null
-                    });
-                } else {
-                    res.statusCode = 201;
-                    res.json({
-                        "identity": "account",
-                        "method": "POST",
-                        "version_sender": config.version_sender,
-                        "version_actual": config.version_actual,
-                        "data": {
-                            test: users
-                        },
-                        "date": Date.now(),
-                        "code": 201,
-                        "message": "OK",
-                        "status": "success",
-                        "input": {
-                            "testName": testName,
-                            "testIndex": testIndex
-                        },
-                        "error": null
-                    });
-                }
-            });
-        } else {
-            res.statusCode = 500;
-            res.json({
-                "identity": "account",
-                "method": "POST",
-                "version_sender": config.version_sender,
-                "version_actual": config.version_actual,
-                "data": {
-                    "accessToken": null
-                },
-                "date": Date.now(),
-                "code": 500,
-                "message": "OK",
-                "status": "success",
-                "input": {
-                    testName: testName
-                },
-                "error": null
-            });
-        }
-    });
-    } catch (err) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    }
-});
-
-router.post('/admin', function(req, res){
-    "use strict";
-    try{
-        var testName = req.headers.testname||req.body.testName;
-        var token = {
-            "testName": testName,
-            "security": {
-                "tokenLife": 3600
-            }
-        };
-        var result = lzString.compress(token);
-        var testIndex = uuid.v1(result);
-        return  TestModel.find({testName:testName},function(err, result){
+    return  TestModel.find({testIndex:testIndex},function(err, result) {
+        if (!err) {
             var findeResult = [];
             findeResult = result;
             if (findeResult.length == 0) {
                 var testModel = new TestModel({
-                    "testName": testName,
-                    "testIndex": testIndex
+                    "testIndex": testIndex,
+                    "testName": testName
                 });
-                console.log(testIndex);
                 testModel.save(function (err, users) {
                     if (err) {
                         res.statusCode = 500;
-                        res.json({
-                            "identity": "account",
-                            "method": "POST",
-                            "version_sender": config.version_sender,
-                            "version_actual": config.version_actual,
-                            "data": {
-                                "accessToken": null
-                            },
-                            "date": Date.now(),
-                            "code": 500,
-                            "message": "OK",
-                            "status": "success",
-                            "input": {
-                                testName: testName
-                            },
-                            "error": null
+                        res.status(err.status || 500);
+                        res.render('error', {
+                            message: err.message,
+                            error: err
                         });
                     } else {
                         res.statusCode = 201;
-                        res.redirect('/account/getTestlist/all');
+                        if (saveOptions) {
+                            res.redirect('/account/getTestlist/all');
+                        } else {
+                            res.json({
+                                "identity": "account",
+                                "method": "POST",
+                                "version_sender": config.version_sender,
+                                "version_actual": config.version_actual,
+                                "data": {
+                                    test: users
+                                },
+                                "date": Date.now(),
+                                "code": 201,
+                                "message": "OK",
+                                "status": "success",
+                                "input": {
+                                    "testName": testName,
+                                    "testIndex": testIndex
+                                },
+                                "error": null
+                            });
+                        }
                     }
                 });
             } else {
-                res.statusCode = 500;
-                res.json({
-                    "identity": "account",
-                    "method": "POST",
-                    "version_sender": config.version_sender,
-                    "version_actual": config.version_actual,
-                    "data": {
-                        "accessToken": null
-                    },
-                    "date": Date.now(),
-                    "code": 500,
-                    "message": "OK",
-                    "status": "success",
-                    "input": {
-                        testName: testName
-                    },
-                    "error": null
-                });
+                res.redirect('/account/getTestlist/all');
             }
-        });
+        } else{
+            res.statusCode = 500;
+            res.render('error', {
+                message: err.message,
+                error: err
+            });
+        }
+    });
     } catch (err) {
         res.status(err.status || 500);
         res.render('error', {
