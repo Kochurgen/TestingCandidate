@@ -6,7 +6,7 @@ var questionModel = require('./Connector').QuestionModel;
 var config = require('../config');
 
 /* GET users listing. */
-router.get('/', function (req, res) {
+router.get('/:id', function (req, res) {
 	"use strict";
 	try {
 		var testName = req.headers.testName;

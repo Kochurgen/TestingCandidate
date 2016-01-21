@@ -1,31 +1,31 @@
 {
   "http": {
-	"hostURL": "http://localhost",
-	"port": 3000
+    "hostURL": "http://localhost",
+    "port": 3000
   },
   "mongo": {
-	"dbURl": "mongodb://localhost:27017/tester",
-	"port": 27017,
-	"dbName": "tes"
+    "dbURl": "mongodb://localhost",
+    "port": 27017,
+    "dbName": "tes"
   },
   "mongolab": {
-	"url": "mongodb://ds037015.mongolab.com:37015/tes",
-	"options": {
-	  "server": {
-		"socketOptions": {
-		  "keepAlive": 1,
-		  "connectTimeoutMS": 5000
-		}
-	  },
-	  "replset": {
-		"socketOptions": {
-		  "keepAlive": 1,
-		  "connectTimeoutMS": 5000
-		}
-	  },
-	  "user": "",
-	  "pass": ""
-	}
+    "url": "mongodb://ds037015.mongolab.com:37015/tes",
+    "options": {
+      "server": {
+        "socketOptions": {
+          "keepAlive": 1,
+          "connectTimeoutMS": 5000
+        }
+      },
+      "replset": {
+        "socketOptions": {
+          "keepAlive": 1,
+          "connectTimeoutMS": 5000
+        }
+      },
+      "user": "",
+      "pass": ""
+    }
   },
   "version_sender": "1.0.0",
   "version_actual": "1.0.0"

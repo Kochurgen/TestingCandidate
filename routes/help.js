@@ -7,61 +7,61 @@ var router = express.Router();
 router.get('/', function (req, res) {
 
 
-    var r = {
-        message: `Scenario: Findingusers When I request "GET /users" Then I get a "200" response
-        And scope into the "data" property 
-        And the properties exist arrey: 
-        [ 0:{ 
-        "fullName" 
-        "email" 
-        "password" 
-        "accesToken" 
+	var r = {
+		message: `Scenario: Findingusers When I request "GET /users" Then I get a "200" response
+        And scope into the "data" property
+        And the properties exist arrey:
+        [ 0:{
+        "fullName"
+        "email"
+        "password"
+        "accesToken"
         }]
         "fullName": {"type": "string"},
-        "email": {"type": "string"}, 
-        "password": {"type": "string"}, 
+        "email": {"type": "string"},
+        "password": {"type": "string"},
         "accesToken": {"type": "string"}
-        Scenario: Findingtest When I request "GET /account/getTestlist" Then I get a "200" response  
-        And scope into the "data" property  
-        And the properties exist arrey:  
-        [0:{ 
-        "testName" 
-        "testIndex" 
+        Scenario: Findingtest When I request "GET /account/getTestlist" Then I get a "200" response
+        And scope into the "data" property
+        And the properties exist arrey:
+        [0:{
+        "testName"
+        "testIndex"
         }]
         "testIndex":{"type": "string"},
         "testName":{"type":"string"}
-        Scenario: Signup When I request "POST /account/signup" Then I get a "201" response 
+        Scenario: Signup When I request "POST /account/signup" Then I get a "201" response
         request contain data:
         "
-        "fullName" 
-        "email" 
-        "password" 
+        "fullName"
+        "email"
+        "password"
         "
         "fullName":{"type": "string"},
         "email":{"type":"string"}
         "password":{"type":"string"}
 
-        Scenario: Signin When I request "POST /account/signin" Then I get a "200" response 
+        Scenario: Signin When I request "POST /account/signin" Then I get a "200" response
         request contain data:
-        "  
+        "
         "email"
         "password"
         "email":{"type": "string"},
         "password":{"type":"string"}
         And scope into the "data" property
         And the properties exist arrey:
-        Scenario: Signin When I request "GET /account/question " Then I get a "200" response 
+        Scenario: Signin When I request "GET /account/question " Then I get a "200" response
         request contain data:
-        "  
+        "
         "testIndex"
         "curentNumber"
         "
         "testIndex":{"type": "string"},
         "curentNumber":{"type":"integer"}}
-        Scenario: Signin When I request "POST /account/addQuestion " Then I get a "200" response 
-        And scope into the "data" property  
-        And the properties exist: 
-        "  
+        Scenario: Signin When I request "POST /account/addQuestion " Then I get a "200" response
+        And scope into the "data" property
+        And the properties exist:
+        "
         "testIndex"
         "total"
         "codeName"
@@ -95,18 +95,18 @@ router.get('/', function (req, res) {
 
         "email":{"type":"string"}
 
-        Scenario: Signin When I request "POST /account/addTest " Then I get a "200" response 
-        And scope into the "data" property  
-        And the properties exist: 
-        "  
+        Scenario: Signin When I request "POST /account/addTest " Then I get a "200" response
+        And scope into the "data" property
+        And the properties exist:
+        "
         "testName"
 
         "testName":{"type": "string"}
 `
 
-    };
-    res.statusCode=200;
-    return res.json(r);
+	};
+	res.statusCode = 200;
+	return res.json(r);
 
 });
 module.exports = router;

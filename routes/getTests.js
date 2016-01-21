@@ -18,16 +18,21 @@ router.get('/', function (req, res, next) {
 			if (err) {
 				console.log('Unable to connect to the mongoDB server. Error:', err);
 			} else {
-				//res.render('testEditor.jade',{data:req.headers.name});
-				//Get the documents collection
-				var collection = db.collection('tests');
-				// Get all documents
-				collection.find({}, {testName: 1, testIndex: 1, _id: 0}).toArray(function (err, docs) {
-					users = docs;
-					//res.send(docs);
-					res.statusCode = 200;
-					res.json({data: docs});
-				});
+				TestModel.find({})
+					.exec()
+					.then((docs) => {
+						console.log(docs);
+						res.statusCode = 200;
+						var result= NormalModel.toObject(TestModel,docs);
+						res.render('tests.jade', {title: 'Test list', data: result});
+					})
+					.catch((error) => {
+						res.status(error.status || 500);
+						res.render('error', {
+							message: error.message,
+							error: error
+						});
+					});
 			}
 		});
 	} catch (err) {
@@ -55,19 +60,6 @@ router.get('/all', function (req, res, next) {
 					error: error
 				});
 			});
-		//	.find({}, function (err, docs) {
-		//	if(!err) {
-		//		//res.send(docs);
-		//		res.statusCode = 200;
-		//		res.render('tests.jade', {data: docs});
-		//	} else{
-		//		res.status(err.status || 500);
-		//		res.render('error', {
-		//			message: err.message,
-		//			error: err
-		//		});
-		//	}
-		//});
 	} catch (err) {
 		res.status(err.status || 500);
 		res.render('error', {
